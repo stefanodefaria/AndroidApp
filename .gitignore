@@ -1,0 +1,10 @@
+/app/proguard-rules.pro
+/gradle.properties
+/local.properties
+/.idea
+/build
+/gradle/
+/.DS_Store
+/.gradle
+*.iml
+
