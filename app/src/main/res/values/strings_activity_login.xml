@@ -13,6 +13,7 @@
 
     <string name="error_invalid_email">Email inválido</string>
     <string name="error_bad_credentials">Email ou senha incorretos</string>
+    <string name="error_email_not_unique">Endereço de email já utilizado. Utilize outro email.</string>
     <string name="error_incorrect_password_confirmation">Senhas não são iguais</string>
     <string name="error_field_required">Campo obrigatório</string>
 </resources>

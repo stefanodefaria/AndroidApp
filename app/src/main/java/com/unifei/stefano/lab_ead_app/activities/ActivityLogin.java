@@ -6,13 +6,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.unifei.stefano.lab_ead_app.Controller;
+import com.unifei.stefano.lab_ead_app.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.R;
 
 
@@ -48,28 +48,31 @@ public class ActivityLogin extends Activity {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        mRegisterCheckboxView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                onChangedRegisterCheckBox(b);
-            }
-        });
+        mRegisterCheckboxView.setOnCheckedChangeListener(
+            new CompoundButton.OnCheckedChangeListener() {
+                 @Override
+                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                     onChangedRegisterCheckBox(b);
+                 }
+            });
 
-        mSignInRegisterButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(validateInput()){
-                    showProgress(true);
+        mSignInRegisterButton.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(validateInput()){
+                        showProgress(true);
 
-                    if(mRegisterCheckboxView.isChecked()) attemptRegister();
-                    else attemptLogin();
+                        if(mRegisterCheckboxView.isChecked()) attemptRegister();
+                        else attemptLogin();
 
-                   //mNameView.setText(null);
-                    mPasswordView.setText(null);
-                    mPasswordConfirmationView.setText(null);
+                        //mNameView.setText(null);
+                        mPasswordView.setText(null);
+                        mPasswordConfirmationView.setText(null);
+                    }
                 }
             }
-        });
+        );
     }
 
     @Override
@@ -111,7 +114,7 @@ public class ActivityLogin extends Activity {
 
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-        Controller.iniciarOperacaoLogin(this, email, password);
+        IniciarOperacao.login(this, email, password);
     }
 
     public void attemptRegister(){
@@ -119,6 +122,8 @@ public class ActivityLogin extends Activity {
         String name = mNameView.getText().toString();
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+
+        IniciarOperacao.register(this, email, password, name);
 
     }
 

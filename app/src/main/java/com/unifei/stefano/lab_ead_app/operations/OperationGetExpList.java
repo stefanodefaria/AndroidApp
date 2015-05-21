@@ -13,7 +13,7 @@ public class OperationGetExpList extends Operation {
 
     private String reqEmail;
     private String reqToken;
-    private ArrayList<String> expIDs;
+    private ArrayList<String> expKeys;
     private ArrayList<String> expNames;
 
     public OperationGetExpList(String email, String token, Activity actv) throws JSONException{
@@ -34,15 +34,15 @@ public class OperationGetExpList extends Operation {
     public void setResponse(String response) throws JSONException {
         super.setResponse(response);
         JSONObject json = new JSONObject(response);
-        JSONArray idArr = json.getJSONArray("experiencesIDs");      // os 2 arrays devem ter
+        JSONArray keysArr = json.getJSONArray("experiencesKeys");      // os 2 arrays devem ter
         JSONArray namesArr = json.getJSONArray("experiencesNames"); // o mesmo length
 
-        for(int i=0; i<idArr.length(); i++){
+        for(int i=0; i<keysArr.length(); i++){
             if (i==0) {
-                expIDs = new ArrayList<>();
+                expKeys = new ArrayList<>();
                 expNames = new ArrayList<>();
             }
-            expIDs.add(idArr.getString(i));
+            expKeys.add(keysArr.getString(i));
             expNames.add(namesArr.getString(i));
         }
     }
@@ -52,13 +52,13 @@ public class OperationGetExpList extends Operation {
         super.resetOperation();
         this.reqToken = null;
         this.reqEmail = null;
-        this.expIDs = null;
+        this.expKeys = null;
         this.expNames = null;
-        // this.accType = null;
     }
 
-    public ArrayList<String> getExpIDs() { return expIDs; }
-
+    public String getReqEmail() { return reqEmail; }
+    public String getReqToken() { return reqToken; }
+    public ArrayList<String> getExpKeys() { return expKeys; }
     public ArrayList<String> getExpNames() { return expNames; }
 
 }

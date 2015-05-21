@@ -2,5 +2,6 @@
     <string name="app_name">Lab EAD</string>
     <!--<string name="ip_address">10.0.2.2</string>-->
     <string name="ip_address">192.168.1.100</string>
+    <string name="exp_manual_base_url">https://sites.google.com/site/labeadpdfs/</string>
     <string name="port">8080</string>
 </resources>

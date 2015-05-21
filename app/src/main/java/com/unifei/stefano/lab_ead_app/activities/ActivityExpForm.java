@@ -9,6 +9,8 @@ import android.view.View;
 import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.R;
 
+import java.util.ArrayList;
+
 
 public class ActivityExpForm extends Activity {
 
@@ -48,8 +50,14 @@ public class ActivityExpForm extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void populateExpForm(String expKey, String expDescricao, String expName,
+                           ArrayList<String> expFormCampos, ArrayList<String> expFormHints){
+
+    }
+
     public void onClick(View v){
-//        Controller.iniciarOperacaoLogin(this);
+//        Controller.login(this);
     }
 
 }

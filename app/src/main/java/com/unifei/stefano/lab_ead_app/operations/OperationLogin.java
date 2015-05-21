@@ -36,8 +36,6 @@ public class OperationLogin extends Operation {
 //        this.accType = json.getString("accType");
     }
 
-
-
     @Override
     public void resetOperation(){
         super.resetOperation();

@@ -1,39 +1,89 @@
 package com.unifei.stefano.lab_ead_app.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+//import android.view.Menu;
+//import android.view.MenuItem;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.R;
 
 public class ActivityExpInfo extends Activity {
+
+    private View mExpInfoScreenView;
+    private View mProgressView;
+
+
+    private String mExpKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exp_info);
+
+        Controller.setmTelaExpInfo(this);
+
+        this.mExpInfoScreenView = findViewById(R.id.exp_info_screen);
+        this.mProgressView = findViewById(R.id.exp_progress_bar);
+        TextView mExpDescriptionView = (TextView) findViewById(R.id.exp_description);
+        TextView mExpNameView = (TextView) findViewById(R.id.exp_name);
+        TextView mExpManualView = (TextView) findViewById(R.id.exp_guia_url_link);
+
+        final Activity thisActv = this;
+
+        Button buttonStartView = (Button) findViewById(R.id.button_start);
+        buttonStartView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//                    showProgress(true);
+//                    IniciarOperacao.startExp(thisActv, mExpKey);
+                        Controller.showErrorMessage(new Exception("Nao implementado ainda"));
+                    }
+
+                }
+        );
+
+        showProgress(false);
+
+        Bundle b = getIntent().getExtras();
+        mExpNameView.setText(b.getString("expName"));
+        mExpDescriptionView.setText(b.getString("expDescricao"));
+        this.mExpKey = b.getString("expKey");
+        String url = getString(R.string.exp_manual_base_url) + mExpKey + ".pdf";
+        String txt = getString(R.string.guia_lab_link_text);
+
+        mExpManualView.setText(Html.fromHtml(
+                "<a href=\"" + url + "\">" + txt + "</a> "));
+        mExpManualView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity_exp_info, menu);
-        return true;
-    }
+    public void showProgress(final boolean show) {
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        mExpInfoScreenView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mExpInfoScreenView.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mExpInfoScreenView.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mProgressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 }

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="button_start">Iniciar Experimento</string>
+    <string name="exp_progress_text">Executando experimento...</string>
+    <string name="guia_lab_link_text">Baixar guia do Laboratório</string>
 </resources>

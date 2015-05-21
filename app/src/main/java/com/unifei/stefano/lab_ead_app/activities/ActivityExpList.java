@@ -1,5 +1,6 @@
 package com.unifei.stefano.lab_ead_app.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.unifei.stefano.lab_ead_app.Controller;
+import com.unifei.stefano.lab_ead_app.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.R;
 
 import java.util.ArrayList;
@@ -26,6 +28,20 @@ public class ActivityExpList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exp_list);
         Controller.setmTelaLista(this);
+
+        final Activity thisActv = this;
+
+        mlistView = (ListView) findViewById(R.id.listView);
+        mlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final String expKey = mExpIDsList.get(i);
+                IniciarOperacao.expInfo(thisActv, expKey);
+            }
+        });
+
+        IniciarOperacao.expList(this);
+
     }
 
 
@@ -33,16 +49,6 @@ public class ActivityExpList extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        mlistView = (ListView) findViewById(R.id.listView);
-        mlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Controller.showErrorMessage(mExpIDsList.get(i));
-            }
-        });
-
-        Controller.iniciarOperacaoGetExpList(this);
 
         return true;
     }
@@ -72,7 +78,7 @@ public class ActivityExpList extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Controller.iniciarOperacaoLogout(this);
+            IniciarOperacao.logout(this);
 
             return true;
         }
