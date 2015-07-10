@@ -100,7 +100,7 @@ public class Controller {
                 String email = registerOp.getReqEmail();
                 String password = registerOp.getReqPassword();
                 Activity sender = registerOp.getTelaExpedidora();
-                IniciarOperacao.login(sender, email, password);
+                IniciarOperacao.iniciar(OperationLogin.class, new Object[]{email, password, sender});
                 break;
             case Definitions.EMAIL_NOT_UNIQUE:
                 mTelaLogin.showProgress(false);

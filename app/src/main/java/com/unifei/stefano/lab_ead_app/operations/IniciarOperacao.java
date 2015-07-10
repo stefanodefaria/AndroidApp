@@ -7,8 +7,8 @@ import org.json.JSONException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
 
 
 /**
@@ -41,9 +41,24 @@ public class IniciarOperacao {
         //pega o primeiro construtor
         Constructor constructor = operationClass.getConstructors()[0];
 
+        //Cria lista com todos os parametros (incluindo email e token)
+        ArrayList<Object> allArguments = new ArrayList<>();
+
+        //Login e Register já contem 'email' ou 'token' nos arguments, não precisa adicionar
+        if (!(operationClass == OperationLogin.class || operationClass == OperationRegister.class)){
+            allArguments.add(IniciarOperacao.email);
+            allArguments.add(IniciarOperacao.token);
+        }
+
+        //Adiciona os outros argumentos
+        for(int i=0; i<arguments.length; i++){
+            allArguments.add(arguments[i]);
+        }
+
+
         try {
             //cria operaçao
-            Operation operation = (Operation) constructor.newInstance(arguments);
+            Operation operation = (Operation) constructor.newInstance(allArguments.toArray());
 
             //inicia requisiçao
             new HttpsOperation(operation).start();
@@ -60,34 +75,24 @@ public class IniciarOperacao {
 
     }
 
-    // Um metodo para cada operaçao
-    public static void login(Activity sender, String email, String password) {
-        try{
-            OperationLogin loginOp = new OperationLogin(email, password, sender);
-            new HttpsOperation(loginOp).start();
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void register(Activity sender, String email, String password, String name) {
-        try{
-            OperationLogin loginOp = new OperationLogin(email, password, sender);
-            new HttpsOperation(loginOp).start();
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void startExp(Activity sender, String ExpID) {
-        try{
-            OperationStartExp startExpOp = new OperationStartExp(sender, IniciarOperacao.email, IniciarOperacao.token, ExpID);
-            new HttpsOperation(startExpOp).start();
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+//    // Login deve ser um método separado
+//    public static void login(Activity sender, String email, String password) {
+//        try{
+//            OperationLogin loginOp = new OperationLogin(email, password, sender);
+//            new HttpsOperation(loginOp).start();
+//        }
+//        catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public static void register(Activity sender, String email, String password, String name) {
+//        try{
+//            OperationLogin loginOp = new OperationLogin(email, password, sender);
+//            new HttpsOperation(loginOp).start();
+//        }
+//        catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

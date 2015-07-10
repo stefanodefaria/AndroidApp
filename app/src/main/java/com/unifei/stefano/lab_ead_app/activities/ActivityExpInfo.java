@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.R;
+import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
+import com.unifei.stefano.lab_ead_app.operations.OperationStartExp;
 
 public class ActivityExpInfo extends Activity {
 
@@ -43,9 +45,9 @@ public class ActivityExpInfo extends Activity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                    showProgress(true);
-//                    IniciarOperacao.startExp(thisActv, mExpKey);
-                        Controller.showErrorMessage(new Exception("Nao implementado ainda"));
+                    showProgress(true);
+                    IniciarOperacao.iniciar(OperationStartExp.class, new Object[]{mExpKey, thisActv});
+//                    Controller.showErrorMessage(new Exception("Nao implementado ainda"));
                     }
 
                 }

@@ -14,6 +14,8 @@ import android.widget.EditText;
 import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.R;
+import com.unifei.stefano.lab_ead_app.operations.OperationLogin;
+import com.unifei.stefano.lab_ead_app.operations.OperationRegister;
 
 
 /**
@@ -114,7 +116,7 @@ public class ActivityLogin extends Activity {
 
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-        IniciarOperacao.login(this, email, password);
+        IniciarOperacao.iniciar(OperationLogin.class, new Object[]{email, password, this});
     }
 
     public void attemptRegister(){
@@ -123,8 +125,7 @@ public class ActivityLogin extends Activity {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
-        IniciarOperacao.register(this, email, password, name);
-
+        IniciarOperacao.iniciar(OperationRegister.class, new Object[]{email, password, name, this});
     }
 
     private boolean validateInput(){

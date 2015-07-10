@@ -13,6 +13,9 @@ import android.widget.ListView;
 import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.R;
+import com.unifei.stefano.lab_ead_app.operations.OperationGetExpInfo;
+import com.unifei.stefano.lab_ead_app.operations.OperationGetExpList;
+import com.unifei.stefano.lab_ead_app.operations.OperationLogout;
 
 import java.util.ArrayList;
 
@@ -36,11 +39,11 @@ public class ActivityExpList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 final String expKey = mExpIDsList.get(i);
-                IniciarOperacao.expInfo(thisActv, expKey);
+                IniciarOperacao.iniciar(OperationGetExpInfo.class, new Object[]{expKey, thisActv});
             }
         });
 
-        IniciarOperacao.expList(this);
+        IniciarOperacao.iniciar(OperationGetExpList.class, new Object[]{this});
 
     }
 
@@ -78,7 +81,7 @@ public class ActivityExpList extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            IniciarOperacao.logout(this);
+            IniciarOperacao.iniciar(OperationLogout.class, new Object[]{this});
 
             return true;
         }

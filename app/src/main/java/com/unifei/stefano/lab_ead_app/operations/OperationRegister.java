@@ -5,15 +5,12 @@ import android.app.Activity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by stefano on 10/07/15.
- */
 public class OperationRegister extends Operation{
     private String reqEmail;
     private String reqPassword;
     private String reqName;
 
-    public OperationRegister(Activity sender, String email, String password, String name) throws JSONException {
+    public OperationRegister(String email, String password, String name, Activity sender) throws JSONException {
         super("/register", sender);
 
         JSONObject registerJSON = new JSONObject();

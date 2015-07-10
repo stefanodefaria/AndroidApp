@@ -7,9 +7,6 @@ import com.unifei.stefano.lab_ead_app.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by stefano on 09/05/15.
- */
 public abstract class Operation {
 
     private String endpoint;
