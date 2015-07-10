@@ -12,7 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.unifei.stefano.lab_ead_app.Controller;
-import com.unifei.stefano.lab_ead_app.IniciarOperacao;
+import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.R;
 
 

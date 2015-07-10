@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.unifei.stefano.lab_ead_app.Controller;
-import com.unifei.stefano.lab_ead_app.IniciarOperacao;
+import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.R;
 
 import java.util.ArrayList;

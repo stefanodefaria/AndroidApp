@@ -10,6 +10,7 @@ import com.unifei.stefano.lab_ead_app.activities.ActivityExpForm;
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpInfo;
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpList;
 import com.unifei.stefano.lab_ead_app.activities.ActivityLogin;
+import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.operations.Operation;
 import com.unifei.stefano.lab_ead_app.operations.OperationGetExpInfo;
 import com.unifei.stefano.lab_ead_app.operations.OperationGetExpList;
