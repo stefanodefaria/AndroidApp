@@ -15,7 +15,7 @@ public class OperationStartExp extends Operation{
 
 
     public OperationStartExp(String email, String token, String expID, Activity sender) throws JSONException {
-        super("/register", sender);
+        super("/startExp", sender);
 
         JSONObject startExpJSON = new JSONObject();
 

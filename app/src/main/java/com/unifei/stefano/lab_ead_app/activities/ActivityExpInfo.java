@@ -4,8 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.os.Bundle;
-//import android.view.Menu;
-//import android.view.MenuItem;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -16,6 +14,9 @@ import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.R;
 import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.operations.OperationStartExp;
+
+//import android.view.Menu;
+//import android.view.MenuItem;
 
 public class ActivityExpInfo extends Activity {
 
@@ -41,12 +42,26 @@ public class ActivityExpInfo extends Activity {
         final Activity thisActv = this;
 
         Button buttonStartView = (Button) findViewById(R.id.button_start);
+        Bundle b = getIntent().getExtras();
+        this.mExpKey = b.getString("expKey");
+        mExpNameView.setText(b.getString("expName"));
+        mExpDescriptionView.setText(b.getString("expDescricao"));
+        String url = getString(R.string.exp_manual_base_url) + mExpKey + ".pdf";
+        String txt = getString(R.string.guia_lab_link_text);
+
+        mExpManualView.setText(Html.fromHtml(
+                "<a href=\"" + url + "\">" + txt + "</a> "));
+        mExpManualView.setMovementMethod(LinkMovementMethod.getInstance());
+
         buttonStartView.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                    showProgress(true);
-                    IniciarOperacao.iniciar(OperationStartExp.class, new Object[]{mExpKey, thisActv});
+                        showProgress(true);
+
+
+                        IniciarOperacao.iniciar(OperationStartExp.class, new Object[]{mExpKey, thisActv});
+                        // IniciarOperacao.iniciar(OperationStartExp.class, new Object[]{this});
 //                    Controller.showErrorMessage(new Exception("Nao implementado ainda"));
                     }
 
@@ -55,16 +70,15 @@ public class ActivityExpInfo extends Activity {
 
         showProgress(false);
 
-        Bundle b = getIntent().getExtras();
-        mExpNameView.setText(b.getString("expName"));
-        mExpDescriptionView.setText(b.getString("expDescricao"));
-        this.mExpKey = b.getString("expKey");
-        String url = getString(R.string.exp_manual_base_url) + mExpKey + ".pdf";
-        String txt = getString(R.string.guia_lab_link_text);
 
-        mExpManualView.setText(Html.fromHtml(
-                "<a href=\"" + url + "\">" + txt + "</a> "));
-        mExpManualView.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+       // IniciarOperacao.iniciar(OperationGetExpList.class, new Object[]{mExpKey, this});
+        super.onDestroy();
+
     }
 
     public void showProgress(final boolean show) {

@@ -22,7 +22,6 @@ import com.unifei.stefano.lab_ead_app.operations.OperationStartExp;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
 public class Controller {
 
@@ -30,6 +29,7 @@ public class Controller {
     private static ActivityLogin mTelaLogin;
     private static ActivityExpList mTelaLista;
     private static ActivityExpInfo mTelaExpInfo;
+
     private static Activity mTelaEmUso;
 
     private static ArrayList<String> mExpNamesList;
@@ -38,6 +38,8 @@ public class Controller {
     private static ArrayList<String> mExpFormHints;
     private static String mExpDescricao;
     private static String mExpName;
+    private static String mExpID;
+
 
 
     public static void setmTelaExpForm(ActivityExpForm mTelaExpForm) {
@@ -142,6 +144,7 @@ public class Controller {
                 Intent intent = new Intent(logoutOp.getTelaExpedidora(), ActivityLogin.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 logoutOp.getTelaExpedidora().startActivity(intent);
+
                 mTelaEmUso.finish();
                 break;
             case Definitions.BAD_CREDENTIALS:
@@ -189,7 +192,7 @@ public class Controller {
 
                 if (mTelaExpInfo == null) {
                     Intent intent = new Intent(getExpInfoOp.getTelaExpedidora(), ActivityExpInfo.class);
-                    getExpInfoOp.getTelaExpedidora().startActivity(intent);
+                   // getExpInfoOp.getTelaExpedidora().startActivity(intent);
 
                     Bundle b = new Bundle();
                     b.putString("expKey", expKey);
@@ -211,6 +214,30 @@ public class Controller {
     }
 
     private static void handleStartExp(OperationStartExp operation) {
+        String responseMsg = operation.getResponseMessage();
+        switch (responseMsg) {
+            case Definitions.SUCCESS:
+                IniciarOperacao.refreshTimeOutDate();
+                mExpID = operation.getReqExpId();
+
+                if(mTelaExpForm == null){
+                    Intent intent = new Intent(operation.getTelaExpedidora(),ActivityExpForm.class);
+                    Bundle b = new Bundle();
+                    b.putString("expKey", mExpID);
+                    intent.putExtras(b);
+                    operation.getTelaExpedidora().startActivity(intent);
+                }
+
+
+
+                break;
+            case Definitions.BAD_CREDENTIALS:
+                showErrorMessage(new Exception(mTelaEmUso.getString(R.string.error_bad_credentials)));
+                break;
+            default:
+                showErrorMessage(new Exception(responseMsg));
+        }
+
     }
 
     public static void showErrorMessage(Exception e){
