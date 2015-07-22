@@ -123,7 +123,7 @@ public class Controller {
                 IniciarOperacao.refreshTimeOutDate();
                 Intent intent = new Intent(loginOp.getTelaExpedidora(), ActivityExpList.class);
                 loginOp.getTelaExpedidora().startActivity(intent);
-                mTelaEmUso.finish();
+
                 break;
             case Definitions.BAD_CREDENTIALS:
                 mTelaLogin.showProgress(false);
@@ -190,19 +190,21 @@ public class Controller {
                 mExpFormHints = getExpInfoOp.getExpFormHints();
                 String expKey = getExpInfoOp.getReqExpKey();
 
-                if (mTelaExpInfo == null) {
-                    Intent intent = new Intent(getExpInfoOp.getTelaExpedidora(), ActivityExpInfo.class);
-                   // getExpInfoOp.getTelaExpedidora().startActivity(intent);
-
-                    Bundle b = new Bundle();
-                    b.putString("expKey", expKey);
-                    b.putString("expName", mExpName);
-                    b.putString("expDescricao", mExpDescricao);
-                    b.putStringArrayList("expFormCampos", mExpFormCampos);
-                    b.putStringArrayList("expFormHints", mExpFormHints);
-                    intent.putExtras(b); //Insere parametros no intent
-                    getExpInfoOp.getTelaExpedidora().startActivity(intent);
+                if (mTelaExpInfo != null) {
+                    mTelaExpInfo.finish();
+                    mTelaExpInfo = null;
                 }
+
+                Intent intent = new Intent(getExpInfoOp.getTelaExpedidora(), ActivityExpInfo.class);
+
+                Bundle b = new Bundle();
+                b.putString("expKey", expKey);
+                b.putString("expName", mExpName);
+                b.putString("expDescricao", mExpDescricao);
+                b.putStringArrayList("expFormCampos", mExpFormCampos);
+                b.putStringArrayList("expFormHints", mExpFormHints);
+                intent.putExtras(b); //Insere parametros no intent
+                getExpInfoOp.getTelaExpedidora().startActivity(intent);
 
                 break;
             case Definitions.BAD_CREDENTIALS:
@@ -220,13 +222,16 @@ public class Controller {
                 IniciarOperacao.refreshTimeOutDate();
                 mExpID = operation.getReqExpId();
 
-                if(mTelaExpForm == null){
-                    Intent intent = new Intent(operation.getTelaExpedidora(),ActivityExpForm.class);
-                    Bundle b = new Bundle();
-                    b.putString("expKey", mExpID);
-                    intent.putExtras(b);
-                    operation.getTelaExpedidora().startActivity(intent);
+                if(mTelaExpForm != null){
+                    mTelaExpForm.finish();
+                    mTelaExpInfo = null;
                 }
+
+                Intent intent = new Intent(operation.getTelaExpedidora(),ActivityExpForm.class);
+                Bundle b = new Bundle();
+                b.putString("expKey", mExpID);
+                intent.putExtras(b);
+                operation.getTelaExpedidora().startActivity(intent);
 
 
 

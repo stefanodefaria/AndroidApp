@@ -81,6 +81,12 @@ public class ActivityExpInfo extends Activity {
 
     }
 
+    protected void onResume()
+    {
+        super.onResume();
+        showProgress(false);
+    }
+
     public void showProgress(final boolean show) {
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 

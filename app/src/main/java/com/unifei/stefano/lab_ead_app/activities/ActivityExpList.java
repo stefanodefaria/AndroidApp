@@ -2,7 +2,6 @@ package com.unifei.stefano.lab_ead_app.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +19,7 @@ import com.unifei.stefano.lab_ead_app.operations.OperationLogout;
 import java.util.ArrayList;
 
 
-public class ActivityExpList extends AppCompatActivity {
+public class ActivityExpList extends Activity {
 
     private ListView mlistView;
     private ArrayList<String> mExpNamesList;
