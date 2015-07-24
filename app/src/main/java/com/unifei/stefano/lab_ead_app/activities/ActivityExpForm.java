@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.R;
@@ -19,6 +20,11 @@ public class ActivityExpForm extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exp_form);
 
+        Controller.setmTelaExpForm(this);
+
+        TextView mExpNameViewForm = (TextView) findViewById(R.id.exp_nameForm);
+        Bundle b = getIntent().getExtras();
+        mExpNameViewForm.setText(b.getString("expKey"));
 
 //        ActionBar actionBar = getSupportActionBar();
 //        actionBar.setLogo(R.mipmap.ic_launcher);
@@ -26,7 +32,7 @@ public class ActivityExpForm extends Activity {
 //        actionBar.setDisplayShowHomeEnabled(true);
 //        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        Controller.setmTelaExpForm(this);
+
     }
 
     @Override
@@ -35,6 +41,7 @@ public class ActivityExpForm extends Activity {
         getMenuInflater().inflate(R.menu.menu_experimento_gravidade, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -38,8 +38,9 @@ public class Controller {
     private static ArrayList<String> mExpFormHints;
     private static String mExpDescricao;
     private static String mExpName;
+   // private static String mExpNameForm;
     private static String mExpID;
-
+   // public static OperationGetExpInfo expForm;
 
 
     public static void setmTelaExpForm(ActivityExpForm mTelaExpForm) {
@@ -215,23 +216,30 @@ public class Controller {
         }
     }
 
-    private static void handleStartExp(OperationStartExp operation) {
-        String responseMsg = operation.getResponseMessage();
+    private static void handleStartExp(OperationStartExp getExpForm) {
+        String responseMsg = getExpForm.getResponseMessage();
         switch (responseMsg) {
             case Definitions.SUCCESS:
+
+
                 IniciarOperacao.refreshTimeOutDate();
-                mExpID = operation.getReqExpId();
+                mExpID = getExpForm.getReqExpId();
+
+                //mExpNameForm = expForm.getExpName();
 
                 if(mTelaExpForm != null){
                     mTelaExpForm.finish();
                     mTelaExpInfo = null;
                 }
 
-                Intent intent = new Intent(operation.getTelaExpedidora(),ActivityExpForm.class);
+                Intent intent = new Intent(getExpForm.getTelaExpedidora(),ActivityExpForm.class);
                 Bundle b = new Bundle();
                 b.putString("expKey", mExpID);
+              //  b.putString("expName", mExpID);
+               // b.putStringArrayList("expFormCampos", mExpFormCampos);
+               // b.putStringArrayList("expFormHints", mExpFormHints);
                 intent.putExtras(b);
-                operation.getTelaExpedidora().startActivity(intent);
+                getExpForm.getTelaExpedidora().startActivity(intent);
 
 
 
