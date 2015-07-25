@@ -36,30 +36,25 @@
                 android:layout_marginLeft="10dp" android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <LinearLayout android:id="@+id/exp_form_data" android:layout_width="wrap_content"
+                <LinearLayout android:id="@+id/exp_form_data" android:layout_width="145dp"
                     android:layout_height="fill_parent" android:orientation="vertical"
                     android:gravity="center">
-                    <TextView
-                        android:gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:maxWidth="200dp"
-                        android:maxLines="2"
-                        android:text="Dado:"
-                        android:id="@+id/textView1" />
+
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:id="@+id/campos_list" />
 
                 </LinearLayout>
-                <LinearLayout android:id="@+id/exp_form_results" android:layout_width="wrap_content"
+                <LinearLayout android:id="@+id/exp_form_results" android:layout_width="204dp"
                     android:layout_height="fill_parent" android:orientation="horizontal"
                     android:layout_marginStart="10dp" android:layout_marginLeft="10dp">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/editText1"
-                        android:maxWidth="200dp"
-                        android:maxLines="2"
-                        android:hint="Unidade (ms, kg, etc)" />
+
+                    <ListView
+                        android:layout_width="wrap_content"
+                        android:layout_height="150dp"
+                        android:id="@+id/hints_list" />
+
                 </LinearLayout>
             </LinearLayout>
 

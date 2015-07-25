@@ -234,10 +234,12 @@ public class Controller {
 
                 Intent intent = new Intent(getExpForm.getTelaExpedidora(),ActivityExpForm.class);
                 Bundle b = new Bundle();
-                b.putString("expKey", mExpID);
-              //  b.putString("expName", mExpID);
-               // b.putStringArrayList("expFormCampos", mExpFormCampos);
-               // b.putStringArrayList("expFormHints", mExpFormHints);
+                b.putString("expName", mExpName);
+                b.putStringArrayList("expFormCampos", mExpFormCampos);
+                b.putStringArrayList("expFormHints", mExpFormHints);
+
+               // mTelaExpForm.setExpCampos(mExpFormCampos);
+
                 intent.putExtras(b);
                 getExpForm.getTelaExpedidora().startActivity(intent);
 
