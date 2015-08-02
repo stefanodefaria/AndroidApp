@@ -40,6 +40,7 @@ public class Controller {
     private static String mExpName;
    // private static String mExpNameForm;
     private static String mExpID;
+    private static String name;
    // public static OperationGetExpInfo expForm;
 
 
@@ -102,6 +103,7 @@ public class Controller {
                 // Após registro, inicia login automaticamente
                 String email = registerOp.getReqEmail();
                 String password = registerOp.getReqPassword();
+                name = registerOp.getReqName();
                 Activity sender = registerOp.getTelaExpedidora();
                 IniciarOperacao.iniciar(OperationLogin.class, new Object[]{email, password, sender});
                 break;
@@ -166,8 +168,10 @@ public class Controller {
 
                 if(mTelaEmUso!= mTelaLista){
                     Intent intent = new Intent(getExpListOp.getTelaExpedidora(),ActivityExpList.class);
+                    Bundle b = new Bundle();
+                    b.putString("nameInfo", name);
                     getExpListOp.getTelaExpedidora().startActivity(intent);
-                }
+                  }
 
                 mTelaLista.setExpList(mExpNamesList, mExpKeysList);
 
@@ -235,6 +239,7 @@ public class Controller {
                 Intent intent = new Intent(getExpForm.getTelaExpedidora(),ActivityExpForm.class);
                 Bundle b = new Bundle();
                 b.putString("expName", mExpName);
+
                 b.putStringArrayList("expFormCampos", mExpFormCampos);
                 b.putStringArrayList("expFormHints", mExpFormHints);
 

@@ -1,7 +1,24 @@
 <resources>
     <string name="app_name">Lab EAD</string>
-    <string name="ip_address">172.20.10.6</string>
+    <string name="ip_address">192.168.1.2</string>
     <!--<string name="ip_address">LOCALHOST</string>-->
     <string name="exp_manual_base_url">https://sites.google.com/site/labeadpdfs/</string>
     <string name="port">8080</string>
+
+    <string-array name="nav_drawer_items">
+        <item >Infos</item>
+        <item >Relatórios</item>
+        <item >Trocar Senha</item>
+        <item >About</item>
+    </string-array>
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_whats_hot</item>
+        <item>@drawable/ic_people</item>
+        <item>@drawable/ic_photos</item>
+        <item>@drawable/ic_communities</item>
+    </array>
+
+    <string name="desc_list_item_icon">Item Icon</string>
+
 </resources>

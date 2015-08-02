@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,7 +18,6 @@ public class ActivityExpForm extends Activity {
 
     private ListView mlistCampos;
     private ListView mlistHints;
-
     private ArrayList<String> mCamposList;
     private ArrayList<String> mHintsList;
 
@@ -34,26 +32,30 @@ public class ActivityExpForm extends Activity {
         TextView mExpNameViewForm = (TextView) findViewById(R.id.exp_nameForm);
         Bundle b = getIntent().getExtras();
         mExpNameViewForm.setText(b.getString("expName"));
-        mlistCampos = (ListView) findViewById(R.id.campos_list);
-        mlistHints = (ListView) findViewById(R.id.hints_list);
+
+
+      //  mlistCampos = (ListView) findViewById(R.id.campos_list);
+      //  mlistHints = (ListView) findViewById(R.id.hints_list);
+      //  ArrayList<String> arrText = b.getStringArrayList("expFormCampos");
 
         //mCamposList = b.getStringArrayList("expFormCampos");
         // mHintsList = b.getStringArrayList("expFormHints");
-
-       /* ArrayList<String> lista = new ArrayList<String>();
+/*
+        ArrayList<String> lista = new ArrayList<String>();
         for(int i=0 ; i<mCamposList.size() ; i++){
             lista.add(mCamposList.get(i));
-            lista.add(mHintsList.get(i));
+
         }
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+        ArrayAdapter<String> arrayAdapterList = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 lista);
 
-        mlistCampos.setAdapter(arrayAdapter);
-        */
-    //TODO Arrumar as listas(hints e sincronia entre elas)
+        mlistHints.setAdapter(arrayAdapterList);
+*/
+/*
+    //TODO Arrumar infos do formulario
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
@@ -68,7 +70,7 @@ public class ActivityExpForm extends Activity {
 
         mlistHints.setAdapter(arrayAdapterHints);
 
-
+*/
 
 
 //        ActionBar actionBar = getSupportActionBar();
@@ -79,6 +81,8 @@ public class ActivityExpForm extends Activity {
 
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
