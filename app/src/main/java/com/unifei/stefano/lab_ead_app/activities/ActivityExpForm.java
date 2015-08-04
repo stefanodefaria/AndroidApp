@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -49,6 +50,8 @@ public class ActivityExpForm extends Activity {
         ListView listView = (ListView) findViewById(R.id.campos_list);
         listView.setAdapter(myListAdapter);
 
+        justifyListViewHeightBasedOnChildren(listView);
+
 //        ActionBar actionBar = getSupportActionBar();
 //        actionBar.setLogo(R.mipmap.ic_launcher);
 //        actionBar.setDisplayUseLogoEnabled(true);
@@ -57,6 +60,67 @@ public class ActivityExpForm extends Activity {
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_experimento_gravidade, menu);
+        return true;
+    }
+
+    public void setExpCampos(ArrayList<String> expCampos){
+        this.mCamposList = expCampos;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void populateExpForm(String expKey, String expDescricao, String expName,
+                           ArrayList<String> expFormCampos, ArrayList<String> expFormHints){
+
+
+
+    }
+
+    public void onClick(View v){
+//        Controller.login(this);
+    }
+
+
+    public void justifyListViewHeightBasedOnChildren (ListView listView) {
+
+        ListAdapter adapter = listView.getAdapter();
+
+        if (adapter == null) {
+            return;
+        }
+        ViewGroup vg = listView;
+        int totalHeight = 0;
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View listItem = adapter.getView(i, null, vg);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams par = listView.getLayoutParams();
+        par.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
+        listView.setLayoutParams(par);
+        listView.requestLayout();
+    }
+
 
     private class MyListAdapter extends BaseAdapter {
 
@@ -105,8 +169,8 @@ public class ActivityExpForm extends Activity {
 
             holder.textView1.setText(arrText.get(position));
             holder.editText1.setText(arrTemp[position]);
+            holder.editText1.setHint(arrHint.get(position));
             holder.editText1.addTextChangedListener(new TextWatcher() {
-
                 @Override
                 public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 
@@ -139,42 +203,5 @@ public class ActivityExpForm extends Activity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_experimento_gravidade, menu);
-        return true;
-    }
-
-    public void setExpCampos(ArrayList<String> expCampos){
-        this.mCamposList = expCampos;
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void populateExpForm(String expKey, String expDescricao, String expName,
-                           ArrayList<String> expFormCampos, ArrayList<String> expFormHints){
-
-
-
-    }
-
-    public void onClick(View v){
-//        Controller.login(this);
-    }
 
 }

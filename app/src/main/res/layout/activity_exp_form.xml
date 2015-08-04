@@ -40,24 +40,13 @@
                 android:textStyle="bold"
                 android:text="@string/folha_de_dados"  />
 
-            <LinearLayout android:layout_width="match_parent" android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp" android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-                <LinearLayout android:id="@+id/exp_form_data" android:layout_width="145dp"
-                    android:layout_height="fill_parent" android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_weight="0.91">
-
-                    <ListView
-                        android:layout_width="wrap_content"
-                        android:layout_height="150dp"
-                        android:descendantFocusability="beforeDescendants"
-                        android:id="@+id/campos_list" />
-
-                </LinearLayout>
-            </LinearLayout>
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:descendantFocusability="beforeDescendants"
+                android:id="@+id/campos_list" />
 
             <Button
                 android:layout_width="match_parent"
