@@ -43,7 +43,6 @@ public class ActivityExpForm extends Activity {
         mExpNameViewForm.setText(b.getString("expName"));
         arrText = b.getStringArrayList("expFormCampos");
         arrHint = b.getStringArrayList("expFormHints");
-        //TODO Colocar os hints na edittext
         arrTemp = new String[arrText.size()];
 
         MyListAdapter myListAdapter = new MyListAdapter();

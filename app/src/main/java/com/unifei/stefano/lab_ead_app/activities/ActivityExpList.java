@@ -3,6 +3,7 @@ package com.unifei.stefano.lab_ead_app.activities;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -20,7 +21,6 @@ import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.NavDrawerItem;
 import com.unifei.stefano.lab_ead_app.NavDrawerListAdapter;
 import com.unifei.stefano.lab_ead_app.R;
-import com.unifei.stefano.lab_ead_app.Seccion;
 import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.operations.OperationGetExpInfo;
 import com.unifei.stefano.lab_ead_app.operations.OperationGetExpList;
@@ -83,26 +83,26 @@ public class ActivityExpList extends Activity {
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
 
         // nav drawer icons from resources
-//        navMenuIcons = getResources()
-//                .obtainTypedArray(R.array.nav_drawer_icons);
+       navMenuIcons = getResources()
+                .obtainTypedArray(R.array.nav_drawer_icons);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
 
         navDrawerItems = new ArrayList();
 
-        // agregar un nuevo item al menu deslizante
+        // adiciona novo item ao menu deslizante
         // Seccion1
-//        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-//        // Seccion2
-//        navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-//        // Seccion3
-//        navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-//        // Seccion4
-//        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
+        // Seccion2
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
+       // Seccion3
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
+        // Seccion4
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
 
         // Recycle the typed array
-//        navMenuIcons.recycle();
+        navMenuIcons.recycle();
 
         mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 
@@ -116,28 +116,30 @@ public class ActivityExpList extends Activity {
         getActionBar().setHomeButtonEnabled(true);
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-               // R.drawable.ic_drawer, //nav menu toggle icon
                 R.string.app_name, // nav drawer open - description for accessibility
                 R.string.app_name // nav drawer close - description for accessibility
         ) {
             public void onDrawerClosed(View view) {
+                super.onDrawerOpened(view);
                 getActionBar().setTitle(mTitle);
                 // calling onPrepareOptionsMenu() to show action bar icons
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
+                super.onDrawerClosed(drawerView);
                 getActionBar().setTitle(mDrawerTitle);
                 // calling onPrepareOptionsMenu() to hide action bar icons
                 invalidateOptionsMenu();
             }
         };
+
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        if (savedInstanceState == null) {
+       // if (savedInstanceState == null) {
             // on first time display view for first nav item
-            displayView(0);
-        }
+        //    displayView(0);
+       // }
 
 
     }
@@ -190,7 +192,7 @@ public class ActivityExpList extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    //TODO Menu lateral
+
     //TODO Criar OperationUpdateInfo, Atualizar Controller, Activity Da update
 
     private class SlideMenuClickListener implements
@@ -199,6 +201,7 @@ public class ActivityExpList extends Activity {
         public void onItemClick(AdapterView parent, View view, int position,
                                 long id) {
             // display view for selected nav drawer item
+
             displayView(position);
         }
     }
@@ -215,16 +218,16 @@ public class ActivityExpList extends Activity {
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment = new Seccion();
+
                 break;
             case 1:
-                fragment = new Seccion();
+
                 break;
             case 2:
-                fragment = new Seccion();
+                startActivity(new Intent(this, ActivityUpdateInfo.class));
                 break;
             case 3:
-                fragment = new Seccion();
+
                 break;
 
             default:
