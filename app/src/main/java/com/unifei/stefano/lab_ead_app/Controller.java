@@ -18,6 +18,7 @@ import com.unifei.stefano.lab_ead_app.operations.OperationLogin;
 import com.unifei.stefano.lab_ead_app.operations.OperationLogout;
 import com.unifei.stefano.lab_ead_app.operations.OperationRegister;
 import com.unifei.stefano.lab_ead_app.operations.OperationStartExp;
+import com.unifei.stefano.lab_ead_app.operations.OperationUpdateInfo;
 
 import org.json.JSONException;
 
@@ -41,6 +42,7 @@ public class Controller {
    // private static String mExpNameForm;
     private static String mExpID;
     private static String name;
+    private static String newPassword;
    // public static OperationGetExpInfo expForm;
 
 
@@ -82,6 +84,9 @@ public class Controller {
                     break;
                 case "startExp":
                     handleStartExp((OperationStartExp) operation);
+                    break;
+                case "UpdateInfo":
+                    handleUpdateInfo((OperationUpdateInfo) operation);
                     break;
                 default:
                     showErrorMessage(new Exception("Operação <" + operation.getName() + "> nao implementada"));
@@ -149,6 +154,21 @@ public class Controller {
                 logoutOp.getTelaExpedidora().startActivity(intent);
 
                 mTelaEmUso.finish();
+                break;
+            case Definitions.BAD_CREDENTIALS:
+                showErrorMessage(new Exception(mTelaEmUso.getString(R.string.error_bad_credentials)));
+                break;
+            default:
+                showErrorMessage(new Exception(responseMsg));
+        }
+    }
+
+    private static void handleUpdateInfo(OperationUpdateInfo updateInfoOp){
+        String responseMsg = updateInfoOp.getResponseMessage();
+        switch (responseMsg) {
+            case Definitions.SUCCESS:
+                newPassword = updateInfoOp.getReqNewPass();
+                name = updateInfoOp.getReqNewName();
                 break;
             case Definitions.BAD_CREDENTIALS:
                 showErrorMessage(new Exception(mTelaEmUso.getString(R.string.error_bad_credentials)));

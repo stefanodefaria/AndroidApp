@@ -2,31 +2,34 @@ package com.unifei.stefano.lab_ead_app.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.unifei.stefano.lab_ead_app.R;
 import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
-import com.unifei.stefano.lab_ead_app.operations.OperationLogin;
+import com.unifei.stefano.lab_ead_app.operations.OperationUpdateInfo;
 
 public class ActivityUpdateInfo extends Activity {
 
-    private EditText mPasswordView;
+    private EditText mNewNameView;
     private EditText mNewPasswordView;
-    private EditText mPasswordConfirmationView;
+    private EditText mNewPasswordConfirmationView;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_update_info);
 
-        EditText mPasswordView = (EditText) findViewById(R.id.senhaAntiga);
-        EditText mNewPasswordView = (EditText) findViewById(R.id.newPassword);
-        EditText mPasswordConfirmationView = (EditText) findViewById(R.id.newPassword2);
+        mNewNameView = (EditText) findViewById(R.id.novoNome);
+        mNewPasswordView = (EditText) findViewById(R.id.newPassword);
+        mNewPasswordConfirmationView = (EditText) findViewById(R.id.newPassword2);
 
         Button mUpdateButton = (Button) findViewById(R.id.update_info);
         mUpdateButton.setOnClickListener(
@@ -34,10 +37,11 @@ public class ActivityUpdateInfo extends Activity {
                     @Override
                     public void onClick(View view) {
 
-                        //attemptLogin();
-                        Toast.makeText(ActivityUpdateInfo.this, "Teste", Toast.LENGTH_SHORT).show();
-                        finish();
-
+                        if(validateInput()){
+                            attemptUpdate();
+                           // Toast.makeText(ActivityUpdateInfo.this, "Teste", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
                     }
                 }
         );
@@ -46,11 +50,49 @@ public class ActivityUpdateInfo extends Activity {
  //TODO
     public void attemptUpdate() {
 
-        String oldPassword = mPasswordView.getText().toString();
         String newPassword = mNewPasswordView.getText().toString();
-        String newPassword2 = mPasswordConfirmationView.getText().toString();
-        IniciarOperacao.iniciar(OperationLogin.class, new Object[]{oldPassword, newPassword, newPassword2, this});
+        String name = mNewNameView.getText().toString();
+
+        IniciarOperacao.iniciar(OperationUpdateInfo.class, new Object[]{newPassword, name, this});
     }
+
+    private boolean validateInput(){
+
+
+        mNewNameView.setError(null);
+        mNewPasswordView.setError(null);
+        mNewPasswordConfirmationView.setError(null);
+
+        String name = mNewNameView.getText().toString();
+        String password = mNewPasswordView.getText().toString();
+        String passwordConfirmation = mNewPasswordConfirmationView.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        if (TextUtils.isEmpty(name)) {
+            mNewNameView.setError(getString(R.string.error_field_required));
+            focusView = mNewNameView;
+            cancel = true;
+        }
+        if (TextUtils.isEmpty(passwordConfirmation)) {
+            mNewPasswordConfirmationView.setError(getString(R.string.error_field_required));
+            focusView = mNewPasswordConfirmationView;
+            cancel = true;
+        } else if (!passwordConfirmation.equals(password)) {
+            mNewPasswordConfirmationView.setError(getString(R.string.error_incorrect_password_confirmation));
+            focusView = mNewPasswordConfirmationView;
+            cancel = true;
+        }
+
+        if (cancel){
+            // There was an error; don't attempt loginRequest and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        }
+        return !cancel;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
