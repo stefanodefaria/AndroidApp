@@ -39,11 +39,12 @@ public class Controller {
     private static ArrayList<String> mExpFormHints;
     private static String mExpDescricao;
     private static String mExpName;
-   // private static String mExpNameForm;
     private static String mExpID;
     private static String name;
+    private static String email;
+    //private static String mName;
     private static String newPassword;
-   // public static OperationGetExpInfo expForm;
+
 
 
     public static void setmTelaExpForm(ActivityExpForm mTelaExpForm) {
@@ -110,6 +111,14 @@ public class Controller {
                 String password = registerOp.getReqPassword();
                 name = registerOp.getReqName();
                 Activity sender = registerOp.getTelaExpedidora();
+
+                //Intent intent = new Intent(sender, ActivityUserInfo.class);
+
+               // Bundle b = new Bundle();
+               // b.putString("email", email);
+              //  b.putString("name", name);
+               // intent.putExtras(b); //Insere parametros no intent
+
                 IniciarOperacao.iniciar(OperationLogin.class, new Object[]{email, password, sender});
                 break;
             case Definitions.EMAIL_NOT_UNIQUE:

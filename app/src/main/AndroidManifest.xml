@@ -38,8 +38,13 @@
         </activity>
         <activity
             android:name=".activities.ActivityUpdateInfo"
-            android:theme="@style/AppTheme"
-            android:label="@string/title_activity_activity_update_info" >
+            android:label="@string/title_activity_activity_update_info"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".activities.ActivityUserInfo"
+            android:label="@string/title_activity_activity_user_info"
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 

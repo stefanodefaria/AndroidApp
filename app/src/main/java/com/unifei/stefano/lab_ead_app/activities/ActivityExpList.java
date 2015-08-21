@@ -218,7 +218,7 @@ public class ActivityExpList extends Activity {
         Fragment fragment = null;
         switch (position) {
             case 0:
-
+                startActivity(new Intent(this, ActivityUserInfo.class));
                 break;
             case 1:
 
