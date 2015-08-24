@@ -17,9 +17,11 @@ import com.unifei.stefano.lab_ead_app.operations.OperationGetExpList;
 import com.unifei.stefano.lab_ead_app.operations.OperationLogin;
 import com.unifei.stefano.lab_ead_app.operations.OperationLogout;
 import com.unifei.stefano.lab_ead_app.operations.OperationRegister;
+import com.unifei.stefano.lab_ead_app.operations.OperationSendReport;
 import com.unifei.stefano.lab_ead_app.operations.OperationStartExp;
 import com.unifei.stefano.lab_ead_app.operations.OperationUpdateInfo;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -44,6 +46,7 @@ public class Controller {
     private static String email;
     //private static String mName;
     private static String newPassword;
+    private static JSONArray reqReport;
 
 
 
@@ -86,8 +89,11 @@ public class Controller {
                 case "startExp":
                     handleStartExp((OperationStartExp) operation);
                     break;
-                case "UpdateInfo":
+                case "updateInfo":
                     handleUpdateInfo((OperationUpdateInfo) operation);
+                    break;
+                case "sendReport":
+                    handleSendReport((OperationSendReport) operation);
                     break;
                 default:
                     showErrorMessage(new Exception("Operação <" + operation.getName() + "> nao implementada"));
@@ -186,6 +192,32 @@ public class Controller {
                 showErrorMessage(new Exception(responseMsg));
         }
     }
+
+    private static void handleSendReport(OperationSendReport sendReportOp){
+        String responseMsg = sendReportOp.getResponseMessage();
+        switch (responseMsg) {
+            case Definitions.SUCCESS:
+                String expKey = sendReportOp.getReqExpKey();
+                String email = sendReportOp.getReqEmail();
+                String token = sendReportOp.getReqToken();
+                reqReport = sendReportOp.getReqReport();
+
+                Intent intent = new Intent(sendReportOp.getTelaExpedidora(), ActivityExpForm.class);
+                Bundle c = new Bundle();
+                c.putString("expKey", expKey);
+                c.putString("email", email);
+                c.putString("token", token);
+                intent.putExtras(c);
+
+                break;
+            case Definitions.BAD_CREDENTIALS:
+                showErrorMessage(new Exception(mTelaEmUso.getString(R.string.error_bad_credentials)));
+                break;
+            default:
+                showErrorMessage(new Exception(responseMsg));
+        }
+    }
+
 
     private static void handleGetExpListResponse(OperationGetExpList getExpListOp){
         String responseMsg = getExpListOp.getResponseMessage();

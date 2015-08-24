@@ -3,7 +3,6 @@ package com.unifei.stefano.lab_ead_app.operations;
 import android.app.Activity;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -17,8 +16,9 @@ public class OperationSendReport extends Operation {
     private String reqExpKey;
     private JSONArray reqReport;
 
-    public OperationSendReport(String email, String token, String expKey, JSONArray report, Activity actv) throws JSONException {
-        super("/sendReport", actv);
+/*
+    public OperationSendReport(String email, String token, String expKey, JSONArray report, Activity sender) throws JSONException {
+        super("/sendReport", sender);
 
         JSONObject request = new JSONObject();
 
@@ -33,9 +33,9 @@ public class OperationSendReport extends Operation {
         this.reqExpKey = expKey;
         this.reqReport = report;
     }
-
-    public OperationSendReport(String email, String token, String expKey, ArrayList<String> reportFieldNames, ArrayList<String> reportValues, Activity actv) throws JSONException, Exception{
-        super("/sendReport", actv);
+*/
+    public OperationSendReport(String email, String token, String expKey, ArrayList<String> reportFieldNames, ArrayList<String> reportValues, Activity sender) throws Exception{
+        super("/sendReport", sender);
 
         JSONObject request = new JSONObject();
         JSONArray report = new JSONArray();

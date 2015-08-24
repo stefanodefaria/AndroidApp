@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Lab EAD</string>
-    <string name="ip_address">192.168.1.5</string>
+    <string name="ip_address">192.168.1.8</string>
     <!--<string name="ip_address">LOCALHOST</string>-->
     <string name="exp_manual_base_url">https://sites.google.com/site/labeadpdfs/</string>
     <string name="port">8080</string>  action_update
@@ -8,7 +8,7 @@
     <string-array name="nav_drawer_items">
         <item >Infos</item>
         <item >Relatórios</item>
-        <item >Trocar Senha</item>
+        <item >Trocar Infos</item>
         <item >About</item>
     </string-array>
 
@@ -24,6 +24,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_activity_user_info">ActivityUserInfo</string>
+    <string name="title_activity_activity_user_info">Informações</string>
 
 </resources>

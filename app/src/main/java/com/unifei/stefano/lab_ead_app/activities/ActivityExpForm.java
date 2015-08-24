@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 
 import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.R;
+import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
+import com.unifei.stefano.lab_ead_app.operations.OperationSendReport;
 
 import java.util.ArrayList;
 
@@ -30,6 +33,12 @@ public class ActivityExpForm extends Activity {
     private ArrayList<String> arrText;
     private ArrayList<String> arrHint;
     private String[] arrTemp;
+    private ArrayList<String> reportFieldNames;
+    private ArrayList<String> reportValues;
+    private String mExpKey;
+    private String mEmail;
+    private String mToken;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +49,11 @@ public class ActivityExpForm extends Activity {
 
         TextView mExpNameViewForm = (TextView) findViewById(R.id.exp_nameForm);
         Bundle b = getIntent().getExtras();
+        Bundle c = getIntent().getExtras();
         mExpNameViewForm.setText(b.getString("expName"));
+        mExpKey = c.getString("expKey");
+        mEmail = c.getString("email");
+        mToken = c.getString("token");
         arrText = b.getStringArrayList("expFormCampos");
         arrHint = b.getStringArrayList("expFormHints");
         arrTemp = new String[arrText.size()];
@@ -51,13 +64,46 @@ public class ActivityExpForm extends Activity {
 
         justifyListViewHeightBasedOnChildren(listView);
 
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setLogo(R.mipmap.ic_launcher);
-//        actionBar.setDisplayUseLogoEnabled(true);
-//        actionBar.setDisplayShowHomeEnabled(true);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
+        Button mUpdateButton = (Button) findViewById(R.id.buttonReport);
+        mUpdateButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (validateInput()) {
+                            attemptSend();
+                             //Toast.makeText(ActivityExpForm.this, "Teste", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                }
+        );
 
 
+    }
+
+    private boolean validateInput(){
+        return true;
+    }
+
+    public void attemptSend() {
+
+        //ArrayList<String> reportFieldNames = arrText.get(position).toString();
+       // ArrayList<String> reportFieldNames = arrText.;
+        //String reportValues = arrTemp[position];
+        reportFieldNames = new ArrayList<String> ();
+        for(int idx=0; idx<arrText.size(); idx++){
+            reportFieldNames.add(arrText.get(idx));
+        }
+        reportValues = new ArrayList<String> ();
+        for(int idx=0; idx<arrText.size(); idx++){
+            reportFieldNames.add(arrTemp[idx]);
+        }
+           //  reportFieldNames = arrText;
+           //  reportValues = arrTemp[idx];
+
+
+        IniciarOperacao.iniciar(OperationSendReport.class, new Object[]{reportFieldNames, reportValues, this});
     }
 
     @Override
