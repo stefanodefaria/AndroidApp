@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.R;
 import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.operations.OperationGetExpList;
-import com.unifei.stefano.lab_ead_app.operations.OperationStartExp;
 
 import java.util.ArrayList;
 
@@ -39,7 +39,9 @@ public class ActivityReportList extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 final String expKey = mExpIDsList.get(i);
-                IniciarOperacao.iniciar(OperationStartExp.class, new Object[]{expKey, thisActv});
+                //TODO Chamar ActivityReportForm pela OperationGetReport
+                Toast.makeText(ActivityReportList.this, "Implementar GetReport", Toast.LENGTH_SHORT).show();
+                //IniciarOperacao.iniciar(OperationStartExp.class, new Object[]{expKey, thisActv});
             }
         });
         IniciarOperacao.iniciar(OperationGetExpList.class, new Object[]{this});

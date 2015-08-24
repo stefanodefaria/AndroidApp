@@ -28,5 +28,6 @@
     <string name="title_activity_activity_user_info">Informações</string>
     <string name="title_activity_activity_test">ActivityTest</string>
     <string name="title_activity_activity_report_list">Folha de Dados</string>
+    <string name="title_activity_activity_report_form">ActivityReportForm</string>
 
 </resources>
