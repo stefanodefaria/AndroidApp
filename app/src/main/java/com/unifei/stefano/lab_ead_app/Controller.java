@@ -10,6 +10,7 @@ import com.unifei.stefano.lab_ead_app.activities.ActivityExpForm;
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpInfo;
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpList;
 import com.unifei.stefano.lab_ead_app.activities.ActivityLogin;
+import com.unifei.stefano.lab_ead_app.activities.ActivityReportList;
 import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.operations.Operation;
 import com.unifei.stefano.lab_ead_app.operations.OperationGetExpInfo;
@@ -32,6 +33,7 @@ public class Controller {
     private static ActivityLogin mTelaLogin;
     private static ActivityExpList mTelaLista;
     private static ActivityExpInfo mTelaExpInfo;
+    private static ActivityReportList mTelaReportLista;
 
     private static Activity mTelaEmUso;
 
@@ -65,6 +67,10 @@ public class Controller {
     public static void setmTelaExpInfo(ActivityExpInfo mTelaExpInfo) {
         Controller.mTelaExpInfo = mTelaExpInfo;
         mTelaEmUso = mTelaLista;
+    }
+    public static void setmTelaReportLista(ActivityReportList mTelaReportLista) {
+        Controller.mTelaReportLista = mTelaReportLista;
+        mTelaEmUso = mTelaReportLista;
     }
 
     public static void receberResposta(ArrayList<String> error, Operation operation){
@@ -227,6 +233,11 @@ public class Controller {
                 mExpNamesList = getExpListOp.getExpNames();
                 mExpKeysList = getExpListOp.getExpKeys();
 
+                if(mTelaEmUso == mTelaReportLista){
+                    mTelaReportLista.setReportList(mExpNamesList, mExpKeysList);
+                    break;
+                }
+
                 if(mTelaEmUso!= mTelaLista){
                     Intent intent = new Intent(getExpListOp.getTelaExpedidora(),ActivityExpList.class);
                     Bundle b = new Bundle();
@@ -235,6 +246,7 @@ public class Controller {
                   }
 
                 mTelaLista.setExpList(mExpNamesList, mExpKeysList);
+                //mTelaReportLista.setReportList(mExpNamesList, mExpKeysList);
 
                 break;
             case Definitions.BAD_CREDENTIALS:

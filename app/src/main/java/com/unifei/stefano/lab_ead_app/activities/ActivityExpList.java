@@ -2,14 +2,12 @@ package com.unifei.stefano.lab_ead_app.activities;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -193,7 +191,7 @@ public class ActivityExpList extends Activity {
     }
 
 
-    //TODO Criar OperationUpdateInfo, Atualizar Controller, Activity Da update
+
 
     private class SlideMenuClickListener implements
             ListView.OnItemClickListener {
@@ -221,19 +219,19 @@ public class ActivityExpList extends Activity {
                 startActivity(new Intent(this, ActivityUserInfo.class));
                 break;
             case 1:
-
+                startActivity(new Intent(this, ActivityReportList.class));
                 break;
             case 2:
                 startActivity(new Intent(this, ActivityUpdateInfo.class));
                 break;
             case 3:
-
+                startActivity(new Intent(this, ActivityTest.class));
                 break;
 
             default:
                 break;
         }
-
+/*
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
@@ -248,6 +246,7 @@ public class ActivityExpList extends Activity {
             // error in creating fragment
             Log.e("Ramiro", "MainActivity - Erro ao criar fragmento");
         }
+*/
     }
 
     @Override

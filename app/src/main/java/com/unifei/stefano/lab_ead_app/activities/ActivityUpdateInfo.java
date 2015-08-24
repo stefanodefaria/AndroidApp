@@ -47,7 +47,7 @@ public class ActivityUpdateInfo extends Activity {
         );
 
     }
- //TODO
+
     public void attemptUpdate() {
 
         String newPassword = mNewPasswordView.getText().toString();
