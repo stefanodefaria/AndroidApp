@@ -2,6 +2,7 @@ package com.unifei.stefano.lab_ead_app.operations;
 
 import android.app.Activity;
 
+import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.R;
 
 import org.json.JSONException;
@@ -21,11 +22,13 @@ public abstract class Operation {
         this.responseMessage = null;
         this.telaExpedidora = actv;
 
-        this.endpoint = "http://" + telaExpedidora.getString(R.string.ip_address) +
+        this.endpoint = "http://" + Controller.getIp() +
                 ":" + telaExpedidora.getString(R.string.port);
     }
-
+   // telaExpedidora.getString(R.string.ip_address)
     //Controller.getIp(R.string.ip_address);
+    //Controller.getIp(R.array.ip_itens);
+    //Controller.getIp()
 
     public void setResponse(String response) throws JSONException {
         JSONObject json = new JSONObject(response);

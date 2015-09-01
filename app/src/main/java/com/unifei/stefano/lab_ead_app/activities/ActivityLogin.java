@@ -6,14 +6,16 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.unifei.stefano.lab_ead_app.Controller;
-import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.R;
+import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.operations.OperationLogin;
 import com.unifei.stefano.lab_ead_app.operations.OperationRegister;
 
@@ -25,6 +27,7 @@ public class ActivityLogin extends Activity {
 
     // UI references.
     private EditText mEmailView;
+    private EditText mIPView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -32,6 +35,8 @@ public class ActivityLogin extends Activity {
     private EditText mNameView;
     private EditText mPasswordConfirmationView;
     private Button mSignInRegisterButton;
+    private String ipNum;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,7 @@ public class ActivityLogin extends Activity {
 
         // Set up the loginRequest form.
         mEmailView = (EditText) findViewById(R.id.email);
+       // mIPView = (EditText) findViewById(R.id.ip);
         mPasswordView = (EditText) findViewById(R.id.password);
         mNameView = (EditText) findViewById(R.id.name);
         mPasswordConfirmationView = (EditText) findViewById(R.id.passwordConfirmation);
@@ -49,6 +55,10 @@ public class ActivityLogin extends Activity {
         mSignInRegisterButton = (Button) findViewById(R.id.sign_in_register_button);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+       // myNum = Integer.parseInt(mIPView.getText().toString());
+//        ipNum = mIPView.getText().toString();
+
 
         mRegisterCheckboxView.setOnCheckedChangeListener(
             new CompoundButton.OnCheckedChangeListener() {
@@ -58,19 +68,33 @@ public class ActivityLogin extends Activity {
                  }
             });
 
+        Spinner dropdown = (Spinner)findViewById(R.id.spinner);
+        String[] items = new String[]{"192.168.1.1", "10.0.2.2", "192.168.1.8","192.168.0.1","192.168.1.9"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
+        dropdown.setAdapter(adapter);
+
+       // dropdown.OnItemChanged(items){
+       //     Controller.setIp(items.Text);
+       // }
+
         mSignInRegisterButton.setOnClickListener(
-            new View.OnClickListener() {
+                new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(validateInput()){
                         showProgress(true);
 
+                        Spinner sp =	(Spinner)findViewById(R.id.spinner);
+                        String spinnerString = null;
+                        spinnerString = sp.getSelectedItem().toString();
+                        Controller.setIp(spinnerString);
                         if(mRegisterCheckboxView.isChecked()) attemptRegister();
                         else attemptLogin();
 
                         //mNameView.setText(null);
                         mPasswordView.setText(null);
                         mPasswordConfirmationView.setText(null);
+
                     }
                 }
             }
@@ -83,13 +107,14 @@ public class ActivityLogin extends Activity {
         showProgress(false);
     }
 
-    /*
+
+/*
     Spinner dropDown = (Spinner)findViewById(R.id.spinner1);
     dropDown.OnItemChanged(item){
         Controller.setIp(item.Text);
     }
-    */
 
+*/
 
     private void onChangedRegisterCheckBox(boolean checked){
         if(checked){
@@ -148,6 +173,7 @@ public class ActivityLogin extends Activity {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         String name = mNameView.getText().toString();
+//        String ip = mIPView.getText().toString();
         String passwordConfirmation = mPasswordConfirmationView.getText().toString();
 
         boolean cancel = false;
@@ -177,6 +203,11 @@ public class ActivityLogin extends Activity {
             cancel = true;
         }
 
+     //   if (TextUtils.isEmpty(ip)) {
+      //      mIPView.setError(getString(R.string.error_field_required));
+       //     focusView = mIPView;
+       //     cancel = true;
+      //  }
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));

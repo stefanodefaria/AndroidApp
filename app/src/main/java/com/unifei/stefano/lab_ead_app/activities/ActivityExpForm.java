@@ -3,6 +3,7 @@ package com.unifei.stefano.lab_ead_app.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.R;
@@ -82,7 +84,28 @@ public class ActivityExpForm extends Activity {
     }
 
     private boolean validateInput(){
-        return true;
+
+        boolean cancel = false;
+       // String focusView = null;
+
+
+        for(int idx=0; idx<arrText.size(); idx++){
+            if (TextUtils.isEmpty(arrTemp[idx])) {
+                cancel = true;
+            }
+        }
+
+      //  if (TextUtils.isEmpty(arrTemp[1])) {
+     //       cancel = true;
+       // }
+
+        if (cancel){
+            // There was an error; don't attempt loginRequest and focus the first
+            // form field with an error.
+            Toast.makeText(ActivityExpForm.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+        }
+       // return true;
+        return !cancel;
     }
 
     public void attemptSend() {

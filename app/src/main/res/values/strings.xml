@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Lab EAD</string>
-    <string name="ip_address">192.168.1.9</string>
+    <!-- <string name="ip_address">Digite seu IP</string>-->
+     <string name="ip_address">192.168.1.9</string>
     <!--<string name="ip_address">LOCALHOST</string>-->
     <string name="exp_manual_base_url">https://sites.google.com/site/labeadpdfs/</string>
     <string name="port">8080</string>  action_update
@@ -17,6 +18,13 @@
         <item>@drawable/ic_people</item>
         <item>@drawable/ic_photos</item>
         <item>@drawable/ic_communities</item>
+    </array>
+
+    <array name="ip_items">
+        <item>192.168.0.1</item>
+        <item>192.168.1.1</item>
+        <item>10.0.2.2</item>
+        <item>192.168.1.9</item>
     </array>
 
     <string name="desc_list_item_icon">Item Icon</string>
