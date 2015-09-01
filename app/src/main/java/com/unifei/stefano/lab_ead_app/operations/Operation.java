@@ -25,6 +25,8 @@ public abstract class Operation {
                 ":" + telaExpedidora.getString(R.string.port);
     }
 
+    //Controller.getIp(R.string.ip_address);
+
     public void setResponse(String response) throws JSONException {
         JSONObject json = new JSONObject(response);
         this.responseMessage = json.getString("message");

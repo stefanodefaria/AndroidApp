@@ -83,6 +83,13 @@ public class ActivityLogin extends Activity {
         showProgress(false);
     }
 
+    /*
+    Spinner dropDown = (Spinner)findViewById(R.id.spinner1);
+    dropDown.OnItemChanged(item){
+        Controller.setIp(item.Text);
+    }
+    */
+
 
     private void onChangedRegisterCheckBox(boolean checked){
         if(checked){

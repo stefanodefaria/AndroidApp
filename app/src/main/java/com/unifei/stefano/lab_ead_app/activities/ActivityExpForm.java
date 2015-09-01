@@ -49,11 +49,10 @@ public class ActivityExpForm extends Activity {
 
         TextView mExpNameViewForm = (TextView) findViewById(R.id.exp_nameForm);
         Bundle b = getIntent().getExtras();
-        Bundle c = getIntent().getExtras();
         mExpNameViewForm.setText(b.getString("expName"));
-        mExpKey = c.getString("expKey");
-        mEmail = c.getString("email");
-        mToken = c.getString("token");
+        mExpKey = b.getString("expID");
+       // mEmail = c.getString("email");
+       // mToken = c.getString("token");
         arrText = b.getStringArrayList("expFormCampos");
         arrHint = b.getStringArrayList("expFormHints");
         arrTemp = new String[arrText.size()];
@@ -97,13 +96,13 @@ public class ActivityExpForm extends Activity {
         }
         reportValues = new ArrayList<String> ();
         for(int idx=0; idx<arrText.size(); idx++){
-            reportFieldNames.add(arrTemp[idx]);
+            reportValues.add(arrTemp[idx]);
         }
            //  reportFieldNames = arrText;
            //  reportValues = arrTemp[idx];
 
 
-        IniciarOperacao.iniciar(OperationSendReport.class, new Object[]{reportFieldNames, reportValues, this});
+        IniciarOperacao.iniciar(OperationSendReport.class, new Object[]{mExpKey, reportFieldNames, reportValues, this});
     }
 
     @Override

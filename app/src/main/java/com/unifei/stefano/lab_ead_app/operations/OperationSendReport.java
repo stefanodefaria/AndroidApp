@@ -3,6 +3,7 @@ package com.unifei.stefano.lab_ead_app.operations;
 import android.app.Activity;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -34,14 +35,14 @@ public class OperationSendReport extends Operation {
         this.reqReport = report;
     }
 */
-    public OperationSendReport(String email, String token, String expKey, ArrayList<String> reportFieldNames, ArrayList<String> reportValues, Activity sender) throws Exception{
+    public OperationSendReport(String email, String token, String expID, ArrayList<String> reportFieldNames, ArrayList<String> reportValues, Activity sender) throws JSONException {
         super("/sendReport", sender);
 
         JSONObject request = new JSONObject();
         JSONArray report = new JSONArray();
 
         if(reportFieldNames.size() != reportValues.size()){
-            throw new Exception("reportFieldNames array size is different than reportValues array size.");
+            throw new JSONException("reportFieldNames array size is different than reportValues array size.");
         }
 
         for(int idx=0; idx<reportFieldNames.size(); idx++){
@@ -54,13 +55,13 @@ public class OperationSendReport extends Operation {
 
         request.put("email", email);
         request.put("token", token);
-        request.put("expKey", expKey);
+        request.put("expID", expID);
         request.put("report", report);
 
         this.setRequest(request);
         this.reqEmail = email;
         this.reqToken = token;
-        this.reqExpKey = expKey;
+        this.reqExpKey = expID;
         this.reqReport = report;
     }
 

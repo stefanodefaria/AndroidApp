@@ -11,6 +11,7 @@ import com.unifei.stefano.lab_ead_app.activities.ActivityExpInfo;
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpList;
 import com.unifei.stefano.lab_ead_app.activities.ActivityLogin;
 import com.unifei.stefano.lab_ead_app.activities.ActivityReportList;
+import com.unifei.stefano.lab_ead_app.activities.ActivityUserInfo;
 import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.operations.Operation;
 import com.unifei.stefano.lab_ead_app.operations.OperationGetExpInfo;
@@ -34,6 +35,7 @@ public class Controller {
     private static ActivityExpList mTelaLista;
     private static ActivityExpInfo mTelaExpInfo;
     private static ActivityReportList mTelaReportLista;
+    private static ActivityUserInfo mTelaUser;
 
     private static Activity mTelaEmUso;
 
@@ -49,8 +51,16 @@ public class Controller {
     //private static String mName;
     private static String newPassword;
     private static JSONArray reqReport;
+    private static String ip;
 
 
+    public static String getIp() {
+        return ip;
+    }
+
+    public static void setIp(String ip) {
+        Controller.ip = ip;
+    }
 
     public static void setmTelaExpForm(ActivityExpForm mTelaExpForm) {
         Controller.mTelaExpForm = mTelaExpForm;
@@ -71,6 +81,11 @@ public class Controller {
     public static void setmTelaReportLista(ActivityReportList mTelaReportLista) {
         Controller.mTelaReportLista = mTelaReportLista;
         mTelaEmUso = mTelaReportLista;
+    }
+
+    public static void setmTelaUser(ActivityUserInfo mTelaUser) {
+        Controller.mTelaUser = mTelaUser;
+        mTelaEmUso = mTelaUser;
     }
 
     public static void receberResposta(ArrayList<String> error, Operation operation){
@@ -124,6 +139,15 @@ public class Controller {
                 name = registerOp.getReqName();
                 Activity sender = registerOp.getTelaExpedidora();
 
+                if(mTelaEmUso == mTelaUser){
+                    Intent intent = new Intent(sender, ActivityUserInfo.class);
+
+                     Bundle b = new Bundle();
+                     b.putString("email", email);
+                     b.putString("name", name);
+                     intent.putExtras(b);
+                    break;
+                }
                 //Intent intent = new Intent(sender, ActivityUserInfo.class);
 
                // Bundle b = new Bundle();
@@ -203,16 +227,17 @@ public class Controller {
         String responseMsg = sendReportOp.getResponseMessage();
         switch (responseMsg) {
             case Definitions.SUCCESS:
-                String expKey = sendReportOp.getReqExpKey();
-                String email = sendReportOp.getReqEmail();
-                String token = sendReportOp.getReqToken();
+                String mExpID = sendReportOp.getReqExpKey();
+             //   String email = sendReportOp.getReqEmail();
+             //   String token = sendReportOp.getReqToken();
                 reqReport = sendReportOp.getReqReport();
 
                 Intent intent = new Intent(sendReportOp.getTelaExpedidora(), ActivityExpForm.class);
                 Bundle c = new Bundle();
-                c.putString("expKey", expKey);
-                c.putString("email", email);
-                c.putString("token", token);
+                c.putString("expID", mExpID);
+
+               // c.putString("email", email);
+               // c.putString("token", token);
                 intent.putExtras(c);
 
                 break;
@@ -312,6 +337,7 @@ public class Controller {
                 Intent intent = new Intent(getExpForm.getTelaExpedidora(),ActivityExpForm.class);
                 Bundle b = new Bundle();
                 b.putString("expName", mExpName);
+                b.putString("expID", getExpForm.getReqExpId());
 
                 b.putStringArrayList("expFormCampos", mExpFormCampos);
                 b.putStringArrayList("expFormHints", mExpFormHints);

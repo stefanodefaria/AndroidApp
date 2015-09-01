@@ -1,24 +1,35 @@
 package com.unifei.stefano.lab_ead_app.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.R;
 
-public class ActivityUserInfo extends ActionBarActivity {
+public class ActivityUserInfo extends Activity {
 
+    private TextView mNameViewForm;
+    private TextView mEmailViewForm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+        Controller.setmTelaUser(this);
 
-       //TextView mNameViewForm = (TextView) findViewById(R.id.nameView);
-       // TextView mEmailViewForm = (TextView) findViewById(R.id.emailView);
-       // Bundle b = getIntent().getExtras();
-       // mNameViewForm.setText(b.getString("name"));
+       // IniciarOperacao.iniciar(OperationRegister.class, new Object[]{this});
+      //  Bundle b = getIntent().getExtras();
+      //  mNameViewForm = (TextView) findViewById(R.id.nameView);
+       // mEmailViewForm = (TextView) findViewById(R.id.emailView);
+
+//        mNameViewForm.setText(b.getString("name"));
        // mEmailViewForm.setText(b.getString("email"));
+
+
+
+
     }
 
     @Override
