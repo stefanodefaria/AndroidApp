@@ -69,7 +69,7 @@ public class ActivityLogin extends Activity {
             });
 
         Spinner dropdown = (Spinner)findViewById(R.id.spinner);
-        String[] items = new String[]{"192.168.1.1", "10.0.2.2", "192.168.1.8","192.168.0.1","192.168.1.9"};
+        String[] items = getResources().getStringArray(R.array.ip_items);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);
 
