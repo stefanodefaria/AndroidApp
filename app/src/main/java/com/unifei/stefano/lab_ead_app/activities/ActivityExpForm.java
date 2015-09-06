@@ -1,13 +1,12 @@
 package com.unifei.stefano.lab_ead_app.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -24,22 +23,15 @@ import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.operations.OperationSendReport;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class ActivityExpForm extends Activity {
 
-    private ListView mlistCampos;
-    private ListView mlistHints;
-    private ArrayList<String> mCamposList;
-    private ArrayList<String> mHintsList;
-    private ArrayList<String> arrText;
     private ArrayList<String> arrHint;
-    private String[] arrTemp;
     private ArrayList<String> reportFieldNames;
-    private ArrayList<String> reportValues;
+    private String[] reportValues;
     private String mExpKey;
-    private String mEmail;
-    private String mToken;
 
 
     @Override
@@ -53,16 +45,13 @@ public class ActivityExpForm extends Activity {
         Bundle b = getIntent().getExtras();
         mExpNameViewForm.setText(b.getString("expName"));
         mExpKey = b.getString("expID");
-       // mEmail = c.getString("email");
-       // mToken = c.getString("token");
-        arrText = b.getStringArrayList("expFormCampos");
+        reportFieldNames = b.getStringArrayList("expFormCampos");
         arrHint = b.getStringArrayList("expFormHints");
-        arrTemp = new String[arrText.size()];
+        reportValues = new String[reportFieldNames.size()];
 
-        MyListAdapter myListAdapter = new MyListAdapter();
+
         ListView listView = (ListView) findViewById(R.id.campos_list);
-        listView.setAdapter(myListAdapter);
-
+        listView.setAdapter(new MyListAdapter());
         justifyListViewHeightBasedOnChildren(listView);
 
         Button mUpdateButton = (Button) findViewById(R.id.buttonReport);
@@ -73,97 +62,39 @@ public class ActivityExpForm extends Activity {
 
                         if (validateInput()) {
                             attemptSend();
-                             //Toast.makeText(ActivityExpForm.this, "Teste", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ActivityExpForm.this, "Teste", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }
                 }
         );
 
-
     }
 
     private boolean validateInput(){
 
         boolean cancel = false;
-       // String focusView = null;
 
-
-        for(int idx=0; idx<arrText.size(); idx++){
-            if (TextUtils.isEmpty(arrTemp[idx])) {
+        for (String value : reportValues) {
+            if (TextUtils.isEmpty(value)) {
                 cancel = true;
             }
         }
-
-      //  if (TextUtils.isEmpty(arrTemp[1])) {
-     //       cancel = true;
-       // }
 
         if (cancel){
             // There was an error; don't attempt loginRequest and focus the first
             // form field with an error.
             Toast.makeText(ActivityExpForm.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
         }
-       // return true;
+
         return !cancel;
     }
 
     public void attemptSend() {
 
-        //ArrayList<String> reportFieldNames = arrText.get(position).toString();
-       // ArrayList<String> reportFieldNames = arrText.;
-        //String reportValues = arrTemp[position];
-        reportFieldNames = new ArrayList<String> ();
-        for(int idx=0; idx<arrText.size(); idx++){
-            reportFieldNames.add(arrText.get(idx));
-        }
-        reportValues = new ArrayList<String> ();
-        for(int idx=0; idx<arrText.size(); idx++){
-            reportValues.add(arrTemp[idx]);
-        }
-           //  reportFieldNames = arrText;
-           //  reportValues = arrTemp[idx];
+        ArrayList<String> reportValuesList = new ArrayList<> (Arrays.asList(reportValues));
 
-
-        IniciarOperacao.iniciar(OperationSendReport.class, new Object[]{mExpKey, reportFieldNames, reportValues, this});
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_experimento_gravidade, menu);
-        return true;
-    }
-
-    public void setExpCampos(ArrayList<String> expCampos){
-        this.mCamposList = expCampos;
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void populateExpForm(String expKey, String expDescricao, String expName,
-                           ArrayList<String> expFormCampos, ArrayList<String> expFormHints){
-
-
-
-    }
-
-    public void onClick(View v){
-//        Controller.login(this);
+        IniciarOperacao.iniciar(OperationSendReport.class, new Object[]{mExpKey, reportFieldNames, reportValuesList, this});
     }
 
 
@@ -174,10 +105,10 @@ public class ActivityExpForm extends Activity {
         if (adapter == null) {
             return;
         }
-        ViewGroup vg = listView;
+
         int totalHeight = 0;
         for (int i = 0; i < adapter.getCount(); i++) {
-            View listItem = adapter.getView(i, null, vg);
+            View listItem = adapter.getView(i, null, listView);
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
@@ -194,8 +125,8 @@ public class ActivityExpForm extends Activity {
         @Override
         public int getCount() {
 
-            if(arrText != null && arrText.size() != 0){
-                return arrText.size();
+            if(reportFieldNames != null && reportFieldNames.size() != 0){
+                return reportFieldNames.size();
             }
             return 0;
         }
@@ -203,7 +134,7 @@ public class ActivityExpForm extends Activity {
         @Override
         public Object getItem(int position) {
 
-            return arrText.get(position);
+            return reportFieldNames.get(position);
         }
 
         @Override
@@ -212,6 +143,7 @@ public class ActivityExpForm extends Activity {
             return position;
         }
 
+        @SuppressLint("InflateParams")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -228,33 +160,24 @@ public class ActivityExpForm extends Activity {
                 convertView.setTag(holder);
 
             } else {
-
                 holder = (ViewHolder) convertView.getTag();
             }
 
             holder.ref = position;
 
-            holder.textView1.setText(arrText.get(position));
-            holder.editText1.setText(arrTemp[position]);
+            holder.textView1.setText(reportFieldNames.get(position));
+            holder.editText1.setText(reportValues[position]);
             holder.editText1.setHint(arrHint.get(position));
             holder.editText1.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
-
-                }
-
+                public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
                 @Override
-                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-                                              int arg3) {
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
 
-
-                }
-
+                //saves typed value into 'arrTemp'
                 @Override
                 public void afterTextChanged(Editable arg0) {
-
-                    arrTemp[holder.ref] = arg0.toString();
+                    reportValues[holder.ref] = arg0.toString();
                 }
             });
 
@@ -266,9 +189,5 @@ public class ActivityExpForm extends Activity {
             EditText editText1;
             int ref;
         }
-
-
     }
-
-
 }
