@@ -14,11 +14,12 @@ public class OperationGetExpStatus extends Operation{
     private String reqEmail;
     private String reqToken;
     private String reqExpID;
+    private int reqSnapshotCount;
 
     private int snapshotCount;
     private String encodedData;
 
-    public OperationGetExpStatus(String email, String token, String expID, Activity actv) throws JSONException{
+    public OperationGetExpStatus(String email, String token, String expID, int snapshotCount, Activity actv) throws JSONException{
         super("/getExpStatus", actv);
 
         JSONObject request = new JSONObject();
@@ -26,12 +27,14 @@ public class OperationGetExpStatus extends Operation{
         request.put("email", email);
         request.put("token", token);
         request.put("expID", expID);
+        request.put("snapshotCount", snapshotCount);
 
         this.setRequest(request);
 
         this.reqEmail = email;
         this.reqToken = token;
         this.reqExpID = expID;
+        this.reqSnapshotCount = snapshotCount;
     }
 
     @Override

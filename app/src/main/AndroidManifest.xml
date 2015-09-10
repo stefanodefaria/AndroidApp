@@ -32,22 +32,25 @@
             android:name=".activities.ActivityExpForm"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustResize|stateVisible">
 
             <!-- android:label="@string/title_activity_experimento" > -->
         </activity>
         <activity
             android:name=".activities.ActivityUpdateInfo"
+            android:windowSoftInputMode="adjustResize|stateVisible"
             android:label="@string/title_activity_activity_update_info"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name=".activities.ActivityUserInfo"
+            android:windowSoftInputMode="adjustResize|stateVisible"
             android:label="@string/title_activity_activity_user_info"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name=".activities.ActivityTest"
+            android:windowSoftInputMode="adjustResize|stateVisible"
             android:label="@string/title_activity_activity_test"
             android:theme="@style/AppTheme" >
         </activity>
@@ -58,6 +61,7 @@
         </activity>
         <activity
             android:name=".activities.ActivityReportForm"
+            android:windowSoftInputMode="adjustResize|stateVisible"
             android:label="@string/title_activity_activity_report_form" >
         </activity>
     </application>

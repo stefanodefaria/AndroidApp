@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpForm;
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpInfo;
@@ -16,6 +19,7 @@ import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.operations.Operation;
 import com.unifei.stefano.lab_ead_app.operations.OperationGetExpInfo;
 import com.unifei.stefano.lab_ead_app.operations.OperationGetExpList;
+import com.unifei.stefano.lab_ead_app.operations.OperationGetExpStatus;
 import com.unifei.stefano.lab_ead_app.operations.OperationLogin;
 import com.unifei.stefano.lab_ead_app.operations.OperationLogout;
 import com.unifei.stefano.lab_ead_app.operations.OperationRegister;
@@ -26,6 +30,8 @@ import com.unifei.stefano.lab_ead_app.operations.OperationUpdateInfo;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class Controller {
@@ -115,6 +121,9 @@ public class Controller {
                     break;
                 case "sendReport":
                     handleSendReport((OperationSendReport) operation);
+                    break;
+                case "getExpStatus":
+                    handleGetExpStatus((OperationGetExpStatus) operation);
                     break;
                 default:
                     showErrorMessage(new Exception("Operação <" + operation.getName() + "> nao implementada"));
@@ -249,6 +258,56 @@ public class Controller {
         }
     }
 
+    private static void handleGetExpStatus(OperationGetExpStatus getExpStatusOp){
+        String responseMsg = getExpStatusOp.getResponseMessage();
+
+        switch (responseMsg){
+            case Definitions.SUCCESS:
+
+                // exp has finished, and encodedData is a video
+                if(getExpStatusOp.getSnapshotCount() == -1){
+
+                    String filePath = null;
+
+                    //converts base64 video to file
+                    if(getExpStatusOp.getEncodedData() != null){
+                        byte[] decodedString = Base64.decode(getExpStatusOp.getEncodedData(), Base64.DEFAULT);
+                        filePath = getExpStatusOp.getTelaExpedidora().getFilesDir().toString() + "/" +
+                                getExpStatusOp.getReqEmail() + "_" + getExpStatusOp.getReqExpID() + ".avi";
+
+                        try{
+                            FileOutputStream os = new FileOutputStream(new File(filePath));
+                            os.write(decodedString);
+                            os.flush();
+                            os.close();
+                        }
+                        catch (Exception e){
+                            showErrorMessage(e);
+                        }
+                    }
+
+                    mTelaExpForm.finishFakeStreaming(filePath);
+                    return;
+                }
+
+                //updates snapshot
+                if(getExpStatusOp.getEncodedData() != null){
+                    byte[] decodedString = Base64.decode(getExpStatusOp.getEncodedData(), Base64.DEFAULT);
+                    Bitmap snapshot = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    mTelaExpForm.updateSnapshot(snapshot);
+                }
+
+                //queries again for new snapshot
+                Object[] params = {getExpStatusOp.getReqExpID(), getExpStatusOp.getSnapshotCount(), getExpStatusOp.getTelaExpedidora()};
+
+                IniciarOperacao.iniciar(OperationGetExpStatus.class, params);
+
+                break;
+            default:
+                showErrorMessage(new Exception(responseMsg));
+                mTelaExpForm.finishFakeStreaming(null);
+        }
+    }
 
     private static void handleGetExpListResponse(OperationGetExpList getExpListOp){
         String responseMsg = getExpListOp.getResponseMessage();

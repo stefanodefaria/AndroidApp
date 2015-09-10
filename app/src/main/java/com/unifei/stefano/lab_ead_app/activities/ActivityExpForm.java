@@ -2,6 +2,7 @@ package com.unifei.stefano.lab_ead_app.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -10,16 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.R;
 import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
+import com.unifei.stefano.lab_ead_app.operations.OperationGetExpStatus;
 import com.unifei.stefano.lab_ead_app.operations.OperationSendReport;
 
 import java.util.ArrayList;
@@ -32,6 +35,11 @@ public class ActivityExpForm extends Activity {
     private ArrayList<String> reportFieldNames;
     private String[] reportValues;
     private String mExpKey;
+
+    private ListView listView;
+    private VideoView videoView;
+    private View expForm;
+    private ImageView snapshot;
 
 
     @Override
@@ -49,26 +57,19 @@ public class ActivityExpForm extends Activity {
         arrHint = b.getStringArrayList("expFormHints");
         reportValues = new String[reportFieldNames.size()];
 
+        videoView = (VideoView) findViewById(R.id.videoView);
+        snapshot = (ImageView) findViewById(R.id.imageView);
+        expForm = findViewById(R.id.exp_form);
 
-        ListView listView = (ListView) findViewById(R.id.campos_list);
+        listView = (ListView) findViewById(R.id.campos_list);
         listView.setAdapter(new MyListAdapter());
-        justifyListViewHeightBasedOnChildren(listView);
 
-        Button mUpdateButton = (Button) findViewById(R.id.buttonReport);
-        mUpdateButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+        //hides report form and video
+        expForm.setVisibility(View.GONE);
 
-                        if (validateInput()) {
-                            attemptSend();
-                            //Toast.makeText(ActivityExpForm.this, "Teste", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    }
-                }
-        );
-
+        //starts 'fake streaming'
+        Object[] params = {mExpKey, 1, this};
+        IniciarOperacao.iniciar(OperationGetExpStatus.class, params);
     }
 
     private boolean validateInput(){
@@ -90,15 +91,46 @@ public class ActivityExpForm extends Activity {
         return !cancel;
     }
 
-    public void attemptSend() {
+    private void attemptSend() {
 
         ArrayList<String> reportValuesList = new ArrayList<> (Arrays.asList(reportValues));
 
         IniciarOperacao.iniciar(OperationSendReport.class, new Object[]{mExpKey, reportFieldNames, reportValuesList, this});
     }
 
+    public void startVideo(View v) {
+        videoView.start();
+    }
 
-    public void justifyListViewHeightBasedOnChildren (ListView listView) {
+    public void sendReport(View view) {
+
+        if (validateInput()) {
+            attemptSend();
+            //Toast.makeText(ActivityExpForm.this, "Teste", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
+
+    public void updateSnapshot(Bitmap image){
+        snapshot.setImageBitmap(image);
+    }
+
+    public void finishFakeStreaming(String filePath){
+
+        //hide fakeStreaming view, shows form view
+        expForm.setVisibility(View.VISIBLE);
+        snapshot.setVisibility(View.GONE);
+        justifyListViewHeightBasedOnChildren(listView);
+        expForm.invalidate();
+
+        //displays video, if available
+        if(filePath != null){
+            videoView.setVideoPath(filePath);
+            videoView.setTag(filePath);
+        }
+    }
+
+    private void justifyListViewHeightBasedOnChildren (ListView listView) {
 
         ListAdapter adapter = listView.getAdapter();
 
@@ -118,7 +150,6 @@ public class ActivityExpForm extends Activity {
         listView.setLayoutParams(par);
         listView.requestLayout();
     }
-
 
     private class MyListAdapter extends BaseAdapter {
 
@@ -180,6 +211,8 @@ public class ActivityExpForm extends Activity {
                     reportValues[holder.ref] = arg0.toString();
                 }
             });
+
+            holder.editText1.clearFocus();
 
             return convertView;
         }
