@@ -36,29 +36,6 @@ public class OperationStartExp extends Operation{
         this.reqExpId = expID;
     }
 
-    /*
-    public void setResponse(String response) throws JSONException {
-        super.setResponse(response);
-        JSONObject json = new JSONObject(response);
-
-        this.expNameForm = json.getString("expName");
-        this.expDescricao = json.getString("expInfo");
-        JSONArray expReportInfoArray = json.getJSONArray("expReportInfo");
-
-
-        for(int i=0; i<expReportInfoArray.length(); i++){
-            if (i==0) {
-                expFormCampos = new ArrayList<>();
-                expFormHints = new ArrayList<>();
-            }
-            JSONObject formItem = expReportInfoArray.getJSONObject(i);
-
-            expFormCampos.add(formItem.getString("fieldName"));
-            expFormHints.add(formItem.getString("hint"));
-        }
-    }
-    */
-
     @Override
     public void resetOperation(){
         super.resetOperation();

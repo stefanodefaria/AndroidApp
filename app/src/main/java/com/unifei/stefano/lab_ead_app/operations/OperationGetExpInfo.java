@@ -39,20 +39,25 @@ public class OperationGetExpInfo extends Operation {
         super.setResponse(response);
         JSONObject json = new JSONObject(response);
 
-        this.expName = json.getString("expName");
-        this.expDescricao = json.getString("expInfo");
-        JSONArray expReportInfoArray = json.getJSONArray("expReportInfo");
+        if(json.has("expName"))
+            this.expName = json.getString("expName");
+        if(json.has("expInfo"))
+            this.expDescricao = json.getString("expInfo");
+
+        if(json.has("expReportInfo")){
+            JSONArray expReportInfoArray = json.getJSONArray("expReportInfo");
 
 
-        for(int i=0; i<expReportInfoArray.length(); i++){
-            if (i==0) {
-                expFormCampos = new ArrayList<>();
-                expFormHints = new ArrayList<>();
+            for(int i=0; i<expReportInfoArray.length(); i++){
+                if (i==0) {
+                    expFormCampos = new ArrayList<>();
+                    expFormHints = new ArrayList<>();
+                }
+                JSONObject formItem = expReportInfoArray.getJSONObject(i);
+
+                expFormCampos.add(formItem.getString("fieldName"));
+                expFormHints.add(formItem.getString("hint"));
             }
-            JSONObject formItem = expReportInfoArray.getJSONObject(i);
-
-            expFormCampos.add(formItem.getString("fieldName"));
-            expFormHints.add(formItem.getString("hint"));
         }
     }
 

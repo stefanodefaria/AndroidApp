@@ -34,16 +34,19 @@ public class OperationGetExpList extends Operation {
     public void setResponse(String response) throws JSONException {
         super.setResponse(response);
         JSONObject json = new JSONObject(response);
-        JSONArray keysArr = json.getJSONArray("experiencesKeys");      // os 2 arrays devem ter
-        JSONArray namesArr = json.getJSONArray("experiencesNames"); // o mesmo length
 
-        for(int i=0; i<keysArr.length(); i++){
-            if (i==0) {
-                expKeys = new ArrayList<>();
-                expNames = new ArrayList<>();
+        if(json.has("experiencesKeys") && json.has("experiencesNames")){
+            JSONArray keysArr = json.getJSONArray("experiencesKeys");      // os 2 arrays devem ter
+            JSONArray namesArr = json.getJSONArray("experiencesNames"); // o mesmo length
+
+            for(int i=0; i<keysArr.length(); i++){
+                if (i==0) {
+                    expKeys = new ArrayList<>();
+                    expNames = new ArrayList<>();
+                }
+                expKeys.add(keysArr.getString(i));
+                expNames.add(namesArr.getString(i));
             }
-            expKeys.add(keysArr.getString(i));
-            expNames.add(namesArr.getString(i));
         }
     }
 

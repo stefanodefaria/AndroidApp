@@ -32,7 +32,9 @@ public abstract class Operation {
 
     public void setResponse(String response) throws JSONException {
         JSONObject json = new JSONObject(response);
-        this.responseMessage = json.getString("message");
+
+        if(json.has("message"))
+            this.responseMessage = json.getString("message");
     }
 
     public void resetOperation(){

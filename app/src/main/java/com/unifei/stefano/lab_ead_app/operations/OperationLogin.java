@@ -31,9 +31,12 @@ public class OperationLogin extends Operation {
     public void setResponse(String response) throws JSONException {
         super.setResponse(response);
         JSONObject json = new JSONObject(response);
-        this.token = json.getString("token");
-        this.timeoutLimit = Integer.parseInt(json.getString("timeout"));
-//        this.accType = json.getString("accType");
+        if(json.has("token")){
+            this.token = json.getString("token");
+        }
+        if(json.has("timeout")){
+            this.timeoutLimit = Integer.parseInt(json.getString("timeout"));
+        }
     }
 
     @Override
