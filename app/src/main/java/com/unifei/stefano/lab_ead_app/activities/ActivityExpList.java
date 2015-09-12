@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -142,7 +144,6 @@ public class ActivityExpList extends Activity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -157,8 +158,6 @@ public class ActivityExpList extends Activity {
 
         atualizaListView();
     }
-
-
 
     private void atualizaListView(){
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
@@ -190,11 +189,18 @@ public class ActivityExpList extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    //logs out on back-button
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            IniciarOperacao.iniciar(OperationLogout.class, new Object[]{this});
+            return true;
+        }
 
+        return super.onKeyDown(keyCode, event);
+    }
 
-
-    private class SlideMenuClickListener implements
-            ListView.OnItemClickListener {
+    private class SlideMenuClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position,
                                 long id) {

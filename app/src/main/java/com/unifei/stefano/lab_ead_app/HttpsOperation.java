@@ -23,14 +23,13 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.ArrayList;
 
 
 public class HttpsOperation extends AsyncTask <Void, Void, Void>{
 
     private Context context;
     private Operation operation;
-    private ArrayList<String> error = new ArrayList<>();
+    private Exception error = null;
 
     public HttpsOperation(Operation operation) {
         this.context = operation.getTelaExpedidora();
@@ -86,13 +85,14 @@ public class HttpsOperation extends AsyncTask <Void, Void, Void>{
                 post.setEntity(se);
                 localResponse = client.execute(post);
                 operation.setResponse(convertStreamToString(localResponse.getEntity().getContent()));
-            } catch (Exception e) {
-                error.add(e.getClass().toString() + ": " + e.getMessage());
+            }
+            catch (Exception e) {
+                error = e;
             }
         }
         else
         {
-            error.add("No Internet Connection");
+            error = new NoInternetException("No internet connection");
         }
         return null;
     }
@@ -102,6 +102,16 @@ public class HttpsOperation extends AsyncTask <Void, Void, Void>{
         super.onPostExecute(result);
 
         Controller.receberResposta(error, operation);
+    }
+
+
+    public class NoInternetException extends Exception{
+        public NoInternetException(){
+            super();
+        }
+        public NoInternetException(String message){
+            super(message);
+        }
     }
 
 }

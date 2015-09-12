@@ -2,12 +2,14 @@ package com.unifei.stefano.lab_ead_app;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpForm;
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpInfo;
@@ -33,6 +35,7 @@ import org.json.JSONException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 public class Controller {
 
@@ -94,8 +97,8 @@ public class Controller {
         mTelaEmUso = mTelaUser;
     }
 
-    public static void receberResposta(ArrayList<String> error, Operation operation){
-        if(error.size()==0) {
+    public static void receberResposta(Exception error, final Operation operation){
+        if(error == null) {
 
             switch (operation.getName()){
                 case "register":
@@ -130,13 +133,25 @@ public class Controller {
             }
         }
         else {
-            String erros = "";
-            for(String s: error) erros +=" " + s;
 
-            showErrorMessage(new Exception(erros));
+            Callable<Void> callback = null;
+
+            //goes back to Login Screen in case of no Internet connection / Server off
+            if(error instanceof HttpsOperation.NoInternetException ||
+                    error instanceof org.apache.http.conn.HttpHostConnectException){
+
+                callback = new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        backToLoginScreen(operation.getTelaExpedidora());
+                        operation.getTelaExpedidora().finish();
+                        return null;
+                    }
+                };
+            }
+            showErrorMessage(error, callback);
         }
     }
-
 
     private static void handleRegisterResponse(OperationRegister registerOp) {
         String responseMsg = registerOp.getResponseMessage();
@@ -189,7 +204,7 @@ public class Controller {
                 break;
             case Definitions.BAD_CREDENTIALS:
                 mTelaLogin.showProgress(false);
-                showErrorMessage(new Exception(mTelaEmUso.getString(R.string.error_bad_credentials)));
+                showErrorMessage(new Exception(mTelaLogin.getString(R.string.error_bad_credentials)));
                 break;
             default:
                 showErrorMessage(new Exception(responseMsg));
@@ -418,16 +433,13 @@ public class Controller {
 
     }
 
-    public static void showErrorMessage(Exception e){
+    public static void showErrorMessage(Exception e, final Callable<Void> callback){
 
         String msg;
 
         if(e instanceof JSONException){
             msg = "Não criou json";
         }else{
-//            StringWriter sw = new StringWriter();
-//            e.printStackTrace(new PrintWriter(sw));
-//            msg = sw.toString();
             msg = e.getMessage();
         }
 
@@ -438,8 +450,21 @@ public class Controller {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        if(callback!=null){
+                            try{
+                                callback.call();
+                            }
+                            catch (Exception e){}
+                        }
                     }
                 });
+
         alertDialog.show();
+    }
+    public static void showErrorMessage(Exception e){ showErrorMessage(e, null); }
+
+    private static void backToLoginScreen(Context context){
+        Intent intent = new Intent(context, ActivityLogin.class);
+        context.startActivity(intent);
     }
 }
