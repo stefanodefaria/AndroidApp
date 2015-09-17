@@ -40,12 +40,12 @@
             android:name=".activities.ActivityUpdateInfo"
             android:windowSoftInputMode="adjustResize|stateVisible"
             android:label="@string/title_activity_activity_update_info"
-            android:theme="@style/AppTheme" >
+            >
         </activity>
         <activity
             android:name=".activities.ActivityUserInfo"
-            android:windowSoftInputMode="adjustResize|stateVisible"
             android:label="@string/title_activity_activity_user_info"
+            android:windowSoftInputMode="stateHidden"
              >
         </activity>
         <activity
@@ -57,7 +57,7 @@
         <activity
             android:name=".activities.ActivityReportList"
             android:label="@string/title_activity_activity_report_list"
-            android:theme="@style/AppTheme" >
+             >
         </activity>
         <activity
             android:name=".activities.ActivityReportForm"
