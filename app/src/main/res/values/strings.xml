@@ -25,7 +25,9 @@
         <item>192.168.1.1</item>
         <item>192.168.1.100</item>
         <item>10.0.2.2</item>
-        <item>192.168.1.9</item>
+        <item>192.168.1.5</item>
+        <item>192.168.1.4</item>
+        <item>192.168.1.18</item>
     </string-array>
 
     <string name="desc_list_item_icon">Item Icon</string>
@@ -34,7 +36,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="test">Teste</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_activity_user_info">Informações</string>
+    <string name="title_activity_activity_user_info">Lab EAD</string>
     <string name="title_activity_activity_test">ActivityTest</string>
     <string name="title_activity_activity_report_list">Folha de Dados</string>
     <string name="title_activity_activity_report_form">ActivityReportForm</string>

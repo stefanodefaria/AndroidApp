@@ -19,17 +19,58 @@
             android:layout_height="wrap_content" android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Informações "
+                android:id="@+id/textView3"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/nameView"
-                android:text="Nome:" />
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Acount Type:"
+                android:id="@+id/textView4"
+                android:layout_marginTop="50dp" />
 
             <TextView
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/accType"
+                android:layout_marginTop="-25dp"
+                android:layout_marginLeft="130dp"
+                android:layout_marginBottom="30dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Nome :"
+                android:id="@+id/textView2"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/nameView"
+                android:layout_marginTop="-25dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginBottom="30dp" />
+
+            <TextView
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/emailView"
                 android:layout_marginTop="20dp"
                 android:text="Email:" />
+
+            <TextView
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/email"
+                android:layout_marginTop="-25dp"
+                android:layout_marginLeft="80dp" />
 
 
 

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
@@ -99,7 +98,7 @@ public class ActivityExpList extends Activity {
        // Seccion3
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
         // Seccion4
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
+       // navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
 
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -222,6 +221,7 @@ public class ActivityExpList extends Activity {
         Fragment fragment = null;
         switch (position) {
             case 0:
+
                 startActivity(new Intent(this, ActivityUserInfo.class));
                 break;
             case 1:
@@ -230,9 +230,9 @@ public class ActivityExpList extends Activity {
             case 2:
                 startActivity(new Intent(this, ActivityUpdateInfo.class));
                 break;
-            case 3:
-                startActivity(new Intent(this, ActivityTest.class));
-                break;
+          //  case 3:
+              // startActivity(new Intent(this, ActivityTest.class));
+              // break;
 
             default:
                 break;

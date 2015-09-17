@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpForm;
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpInfo;
@@ -56,12 +55,37 @@ public class Controller {
     private static String mExpName;
     private static String mExpID;
     private static String name;
+    private static String mName;
+    private static String mNameUser;
     private static String email;
-    //private static String mName;
     private static String newPassword;
     private static JSONArray reqReport;
     private static String ip;
+    private static String accType;
 
+    public static String getEmail() {
+        return email;
+    }
+
+    public static void setEmail(String email) {
+        Controller.email = email;
+    }
+
+    public static String getmNameUser() {
+        return mNameUser;
+    }
+
+    public static void setmNameUser(String mNameUser) {
+        Controller.mNameUser = mNameUser;
+    }
+
+    public static String getAccType() {
+        return accType;
+    }
+
+    public static void setAccType(String accType) {
+        Controller.accType = accType;
+    }
 
     public static String getIp() {
         return ip;
@@ -163,22 +187,6 @@ public class Controller {
                 name = registerOp.getReqName();
                 Activity sender = registerOp.getTelaExpedidora();
 
-                if(mTelaEmUso == mTelaUser){
-                    Intent intent = new Intent(sender, ActivityUserInfo.class);
-
-                     Bundle b = new Bundle();
-                     b.putString("email", email);
-                     b.putString("name", name);
-                     intent.putExtras(b);
-                    break;
-                }
-                //Intent intent = new Intent(sender, ActivityUserInfo.class);
-
-               // Bundle b = new Bundle();
-               // b.putString("email", email);
-              //  b.putString("name", name);
-               // intent.putExtras(b); //Insere parametros no intent
-
                 IniciarOperacao.iniciar(OperationLogin.class, new Object[]{email, password, sender});
                 break;
             case Definitions.EMAIL_NOT_UNIQUE:
@@ -194,10 +202,17 @@ public class Controller {
         String responseMsg = loginOp.getResponseMessage();
         switch (responseMsg){
             case Definitions.SUCCESS:
+
                 IniciarOperacao.setToken(loginOp.getToken());
                 IniciarOperacao.setEmail(loginOp.getReqEmail());
                 IniciarOperacao.setTimeOutLimit(loginOp.getTimeoutLimit());
                 IniciarOperacao.refreshTimeOutDate();
+                email = loginOp.getReqEmail();
+                mName = loginOp.getmName();
+                accType = loginOp.getAccType();
+                Controller.setmNameUser(mName);
+                Controller.setAccType(accType);
+                Controller.setEmail(loginOp.getReqEmail());
                 Intent intent = new Intent(loginOp.getTelaExpedidora(), ActivityExpList.class);
                 loginOp.getTelaExpedidora().startActivity(intent);
 
@@ -238,6 +253,8 @@ public class Controller {
             case Definitions.SUCCESS:
                 newPassword = updateInfoOp.getReqNewPass();
                 name = updateInfoOp.getReqNewName();
+
+                Controller.setmNameUser(name);
                 break;
             case Definitions.BAD_CREDENTIALS:
                 showErrorMessage(new Exception(mTelaEmUso.getString(R.string.error_bad_credentials)));

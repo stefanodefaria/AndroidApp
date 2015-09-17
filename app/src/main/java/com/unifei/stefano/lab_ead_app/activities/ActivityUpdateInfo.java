@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.unifei.stefano.lab_ead_app.R;
 import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
@@ -39,7 +40,7 @@ public class ActivityUpdateInfo extends Activity {
 
                         if(validateInput()){
                             attemptUpdate();
-                           // Toast.makeText(ActivityUpdateInfo.this, "Teste", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ActivityUpdateInfo.this, "Informacoes Atualizadas", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }

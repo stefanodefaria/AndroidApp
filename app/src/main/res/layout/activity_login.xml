@@ -28,7 +28,7 @@
                  android:inputType="textEmailAddress" android:maxLines="1"
                  android:singleLine="true"
                  android:editable="false"
-                 android:text="test@test.com" />
+                 android:text="test2@test.com" />
 
              <EditText android:id="@+id/name" android:layout_width="match_parent"
                  android:layout_height="wrap_content" android:hint="@string/prompt_name"

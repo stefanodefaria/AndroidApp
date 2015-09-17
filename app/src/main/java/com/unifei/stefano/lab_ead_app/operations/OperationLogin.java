@@ -7,11 +7,12 @@ import org.json.JSONObject;
 
 public class OperationLogin extends Operation {
     private String token;
+    private String mName;
     private int timeoutLimit;
 
     private String reqEmail;
     private String reqPassword;
-//    private String accType;
+    private String accType;
 
     public OperationLogin(String email, String password, Activity sender) throws JSONException {
         super("/login", sender);
@@ -34,6 +35,12 @@ public class OperationLogin extends Operation {
         if(json.has("token")){
             this.token = json.getString("token");
         }
+        if(json.has("name")){
+            this.mName = json.getString("name");
+        }
+        if(json.has("accType")){
+            this.accType = json.getString("accType");
+        }
         if(json.has("timeout")){
             this.timeoutLimit = Integer.parseInt(json.getString("timeout"));
         }
@@ -46,9 +53,12 @@ public class OperationLogin extends Operation {
         this.timeoutLimit = -1;
         this.reqPassword = null;
         this.reqEmail = null;
+        this.mName = null;
         // this.accType = null;
     }
 
+    public String getAccType() {return accType;}
+    public String getmName() {return mName;}
     public String getToken() { return token; }
     public int getTimeoutLimit() { return timeoutLimit; }
     public String getReqPassword() { return reqPassword; }

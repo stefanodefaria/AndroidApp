@@ -11,26 +11,28 @@ import com.unifei.stefano.lab_ead_app.R;
 
 public class ActivityUserInfo extends Activity {
 
-    private TextView mNameViewForm;
+   // private TextView mNameViewForm;
     private TextView mEmailViewForm;
+    private String mName;
+    private String email;
+    private String password;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
         Controller.setmTelaUser(this);
-
-       // IniciarOperacao.iniciar(OperationRegister.class, new Object[]{this});
-      //  Bundle b = getIntent().getExtras();
-      //  mNameViewForm = (TextView) findViewById(R.id.nameView);
-       // mEmailViewForm = (TextView) findViewById(R.id.emailView);
-
-//        mNameViewForm.setText(b.getString("name"));
-       // mEmailViewForm.setText(b.getString("email"));
-
-
-
+        TextView mNameViewForm = (TextView) findViewById(R.id.nameView);
+        mNameViewForm.setText(Controller.getmNameUser());
+        TextView mAccType = (TextView) findViewById(R.id.accType);
+        mAccType.setText(Controller.getAccType());
+        TextView email = (TextView) findViewById(R.id.email);
+        email.setText(Controller.getEmail());
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
