@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.zip.GZIPInputStream;
 
 
 public class HttpsOperation extends AsyncTask <Void, Void, Void>{
@@ -84,7 +85,10 @@ public class HttpsOperation extends AsyncTask <Void, Void, Void>{
                 StringEntity se = new StringEntity(operation.getRequest().toString());
                 post.setEntity(se);
                 localResponse = client.execute(post);
-                operation.setResponse(convertStreamToString(localResponse.getEntity().getContent()));
+
+                InputStream instream = new GZIPInputStream(localResponse.getEntity().getContent());
+
+                operation.setResponse(convertStreamToString(instream));
             }
             catch (Exception e) {
                 error = e;
