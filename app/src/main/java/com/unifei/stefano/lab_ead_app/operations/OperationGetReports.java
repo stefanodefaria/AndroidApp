@@ -1,11 +1,20 @@
 package com.unifei.stefano.lab_ead_app.operations;
 
 import android.app.Activity;
+import android.net.Uri;
+import android.util.Base64;
+import android.view.WindowManager;
+import android.widget.Toast;
+
+import com.unifei.stefano.lab_ead_app.Controller;
+import com.unifei.stefano.lab_ead_app.Definitions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -16,13 +25,9 @@ public class OperationGetReports extends Operation{
     private String reqEmail;
     private String reqToken;
 
-    private ArrayList<String> expID;
-    private ArrayList<String> report;
-    private ArrayList<String> expTime;
-    private ArrayList<ArrayList<String>> listReport = new ArrayList<ArrayList<String>>();
-    private ArrayList<String> xReport = new ArrayList<String>();
+    private ArrayList<Report> reports = new ArrayList<>();
 
-    public OperationGetReports (String email, String token, Activity actv) throws JSONException{
+    public OperationGetReports(String email, String token, Activity actv) throws JSONException{
         super("/getReport", actv);
 
         JSONObject request = new JSONObject();
@@ -33,6 +38,7 @@ public class OperationGetReports extends Operation{
         this.setRequest(request);
         this.reqEmail = email;
         this.reqToken = token;
+
     }
 
 
@@ -40,28 +46,68 @@ public class OperationGetReports extends Operation{
         super.setResponse(response);
         JSONObject json = new JSONObject(response);
 
-        JSONArray expReport = json.getJSONArray("reports");
-
-        for(int i=0; i<expReport.length(); i++){
-            if (i==0) {
-                expID = new ArrayList<>();
-                expTime = new ArrayList<>();
-                listReport = new ArrayList<>();
-                xReport = new ArrayList<>();
-            }
-            JSONObject formItem = expReport.getJSONObject(i);
-            expID.add(formItem.getString("expID"));
-            expTime.add(formItem.getString("timestamp"));
-            xReport.add(formItem.getString("report"));
-            listReport.add(xReport);
+        if (!this.getResponseMessage().equals(Definitions.SUCCESS) || !json.has("reports")) {
+            return;
         }
 
+        JSONArray expReports = json.getJSONArray("reports");
+
+        //iterate through every report
+        for (int i = 0; i < expReports.length(); i++) {
+
+            Report report = new Report();
+            JSONObject jsonReport = expReports.getJSONObject(i);
+
+            report.expName = jsonReport.getString("expName");
+            report.expID = jsonReport.getString("expID");
+            report.timestamp = jsonReport.getString("timestamp");
+
+            JSONArray reportContent = jsonReport.getJSONArray("report");
+
+            //iterate through every field in the report
+            for (int j = 0; j < reportContent.length(); j++) {
+                String fieldName = reportContent.getJSONObject(j).getString("fieldName");
+                String value = reportContent.getJSONObject(j).getString("value");
+
+                report.fieldNames.add(fieldName);
+                report.values.add(value);
+            }
+
+            if(jsonReport.has("encodedVideo")){
+                byte[] decodedString = Base64.decode(jsonReport.getString("encodedVideo"), Base64.DEFAULT);
+                String filePath = this.getTelaExpedidora().getFilesDir().toString() + "/" +
+                        reqEmail + "_" + report.expID + ".avi";
+
+                try{
+                    FileOutputStream os = new FileOutputStream(new File(filePath));
+                    os.write(decodedString);
+                    os.flush();
+                    os.close();
+                    report.videoFilePath = filePath;
+                }
+                catch (Exception e){
+                    Controller.showErrorMessage(e);
+                }
+            }
+
+
+            reports.add(report);
+
+        }
     }
 
     public String getReqEmail() { return reqEmail; }
     public String getReqToken() { return reqToken; }
+    public ArrayList<Report> getReports(){ return reports; }
 
-    public ArrayList<String> getExpReports() { return getExpReports(); }
+    public class Report{
+        public String expID, timestamp, videoFilePath, expName;
+        public ArrayList<String> fieldNames, values;
 
+        public Report(){
+            fieldNames = new ArrayList<>();
+            values = new ArrayList<>();
+        }
 
+    }
 }

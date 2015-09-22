@@ -20,35 +20,32 @@
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/report_nameForm" />
-            <VideoView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:id="@+id/reportVideoView"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="15dp" />
 
-            <TextView
-                android:id="@+id/reportViewTitle"
-                android:layout_width="wrap_content"
+            <VideoView
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:id="@+id/reportVideoView"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp" />
+
+            <Button
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                android:text="@string/folha_de_dados"  />
+                android:id="@+id/playButton"
+                android:layout_gravity="center_horizontal"
+                android:text="Play"
+                android:onClick="startVideo"
+                android:nestedScrollingEnabled="true" />
 
             <ListView
+                android:focusableInTouchMode="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:descendantFocusability="beforeDescendants"
                 android:id="@+id/campos_list" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/send_button"
-                android:id="@+id/butReport"
-                android:onClick="onClick" />
 
         </LinearLayout>
     </ScrollView>

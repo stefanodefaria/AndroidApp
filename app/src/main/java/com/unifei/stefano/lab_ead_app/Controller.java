@@ -21,6 +21,7 @@ import com.unifei.stefano.lab_ead_app.operations.Operation;
 import com.unifei.stefano.lab_ead_app.operations.OperationGetExpInfo;
 import com.unifei.stefano.lab_ead_app.operations.OperationGetExpList;
 import com.unifei.stefano.lab_ead_app.operations.OperationGetExpStatus;
+import com.unifei.stefano.lab_ead_app.operations.OperationGetReports;
 import com.unifei.stefano.lab_ead_app.operations.OperationLogin;
 import com.unifei.stefano.lab_ead_app.operations.OperationLogout;
 import com.unifei.stefano.lab_ead_app.operations.OperationRegister;
@@ -115,10 +116,13 @@ public class Controller {
         Controller.mTelaReportLista = mTelaReportLista;
         mTelaEmUso = mTelaReportLista;
     }
-
     public static void setmTelaUser(ActivityUserInfo mTelaUser) {
         Controller.mTelaUser = mTelaUser;
         mTelaEmUso = mTelaUser;
+    }
+
+    public static ActivityReportList getmTelaReportLista(){
+        return mTelaReportLista;
     }
 
     public static void receberResposta(Exception error, final Operation operation){
@@ -151,6 +155,9 @@ public class Controller {
                     break;
                 case "getExpStatus":
                     handleGetExpStatus((OperationGetExpStatus) operation);
+                    break;
+                case "getReport":
+                    handleGetReport((OperationGetReports) operation);
                     break;
                 default:
                     showErrorMessage(new Exception("Operação <" + operation.getName() + "> nao implementada"));
@@ -349,11 +356,6 @@ public class Controller {
                 mExpNamesList = getExpListOp.getExpNames();
                 mExpKeysList = getExpListOp.getExpKeys();
 
-                if(mTelaEmUso == mTelaReportLista){
-                    mTelaReportLista.setReportList(mExpNamesList, mExpKeysList);
-                    break;
-                }
-
                 if(mTelaEmUso!= mTelaLista){
                     Intent intent = new Intent(getExpListOp.getTelaExpedidora(),ActivityExpList.class);
                     Bundle b = new Bundle();
@@ -450,12 +452,17 @@ public class Controller {
 
     }
 
+    private static void handleGetReport(OperationGetReports getReportOp){
+
+        mTelaReportLista.setReports(getReportOp.getReports());
+    }
+
     public static void showErrorMessage(Exception e, final Callable<Void> callback){
 
         String msg;
 
         if(e instanceof JSONException){
-            msg = "Não criou json";
+            msg = "Não criou json: " + e.getMessage();
         }else{
             msg = e.getMessage();
         }
