@@ -104,6 +104,7 @@ public class ActivityLogin extends Activity {
     @Override
     protected void onResume(){
         super.onResume();
+        Controller.setmTelaLogin(this);
         showProgress(false);
     }
 

@@ -14,7 +14,9 @@ import com.unifei.stefano.lab_ead_app.activities.ActivityExpForm;
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpInfo;
 import com.unifei.stefano.lab_ead_app.activities.ActivityExpList;
 import com.unifei.stefano.lab_ead_app.activities.ActivityLogin;
+import com.unifei.stefano.lab_ead_app.activities.ActivityReportForm;
 import com.unifei.stefano.lab_ead_app.activities.ActivityReportList;
+import com.unifei.stefano.lab_ead_app.activities.ActivityUpdateInfo;
 import com.unifei.stefano.lab_ead_app.activities.ActivityUserInfo;
 import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.operations.Operation;
@@ -45,6 +47,9 @@ public class Controller {
     private static ActivityExpInfo mTelaExpInfo;
     private static ActivityReportList mTelaReportLista;
     private static ActivityUserInfo mTelaUser;
+
+    private static ActivityUpdateInfo mTelaUpdate;
+    private static ActivityReportForm mTelaReport;
 
     private static Activity mTelaEmUso;
 
@@ -119,6 +124,16 @@ public class Controller {
     public static void setmTelaUser(ActivityUserInfo mTelaUser) {
         Controller.mTelaUser = mTelaUser;
         mTelaEmUso = mTelaUser;
+    }
+
+    public static void setmTelaUpdate(ActivityUpdateInfo mTelaUpdate) {
+        Controller.mTelaUpdate = mTelaUpdate;
+        mTelaEmUso = mTelaUpdate;
+    }
+
+    public static void setmTelaReport(ActivityReportForm mTelaReport) {
+        Controller.mTelaReport = mTelaReport;
+        mTelaEmUso = mTelaReport;
     }
 
     public static ActivityReportList getmTelaReportLista(){
@@ -474,16 +489,20 @@ public class Controller {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        if(callback!=null){
-                            try{
+                        if (callback != null) {
+                            try {
                                 callback.call();
+                            } catch (Exception e) {
                             }
-                            catch (Exception e){}
                         }
                     }
                 });
 
-        alertDialog.show();
+        try{
+
+            alertDialog.show();
+        }
+        catch(Exception excep){}
     }
     public static void showErrorMessage(Exception e){ showErrorMessage(e, null); }
 

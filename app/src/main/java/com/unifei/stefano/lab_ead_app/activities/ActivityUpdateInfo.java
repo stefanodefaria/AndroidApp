@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.unifei.stefano.lab_ead_app.Controller;
 import com.unifei.stefano.lab_ead_app.R;
 import com.unifei.stefano.lab_ead_app.operations.IniciarOperacao;
 import com.unifei.stefano.lab_ead_app.operations.OperationUpdateInfo;
@@ -20,13 +21,12 @@ public class ActivityUpdateInfo extends Activity {
     private EditText mNewPasswordView;
     private EditText mNewPasswordConfirmationView;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_update_info);
+
+        Controller.setmTelaUpdate(this);
 
         mNewNameView = (EditText) findViewById(R.id.novoNome);
         mNewPasswordView = (EditText) findViewById(R.id.newPassword);
@@ -47,6 +47,12 @@ public class ActivityUpdateInfo extends Activity {
                 }
         );
 
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Controller.setmTelaUpdate(this);
     }
 
     public void attemptUpdate() {

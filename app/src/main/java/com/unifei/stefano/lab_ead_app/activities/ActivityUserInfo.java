@@ -33,6 +33,11 @@ public class ActivityUserInfo extends Activity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Controller.setmTelaUser(this);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

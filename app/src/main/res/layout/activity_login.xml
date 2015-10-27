@@ -27,8 +27,7 @@
                  android:layout_height="wrap_content" android:hint="@string/prompt_email"
                  android:inputType="textEmailAddress" android:maxLines="1"
                  android:singleLine="true"
-                 android:editable="false"
-                 android:text="test2@test.com" />
+                 android:editable="false" />
 
              <EditText android:id="@+id/name" android:layout_width="match_parent"
                  android:layout_height="wrap_content" android:hint="@string/prompt_name"
@@ -37,8 +36,7 @@
 
              <EditText android:id="@+id/password" android:layout_width="match_parent"
                  android:layout_height="wrap_content" android:hint="@string/prompt_password"
-                 android:inputType="textPassword" android:maxLines="1" android:singleLine="true"
-                 android:text="54321" />
+                 android:inputType="textPassword" android:maxLines="1" android:singleLine="true" />
 
              <EditText android:id="@+id/passwordConfirmation" android:layout_width="match_parent"
                  android:layout_height="wrap_content" android:hint="@string/prompt_password_confirmation"
@@ -62,7 +60,8 @@
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="gone" />
 
             <ImageView
                 android:layout_width="wrap_content" android:layout_height="wrap_content"

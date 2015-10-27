@@ -72,6 +72,12 @@ public class ActivityExpForm extends Activity {
         IniciarOperacao.iniciar(OperationGetExpStatus.class, params);
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Controller.setmTelaExpForm(this);
+    }
+
     private boolean validateInput(){
 
         boolean cancel = false;

@@ -37,6 +37,8 @@ public class ActivityReportForm extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_form);
 
+        Controller.setmTelaReport(this);
+
         //get report from ActivityReportList
         int reportIndex = getIntent().getExtras().getInt("index");
         mReport = Controller.getmTelaReportLista().getReport(reportIndex);
@@ -58,6 +60,12 @@ public class ActivityReportForm extends Activity {
 
         //prevents keyboard to show up automatically
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Controller.setmTelaReport(this);
     }
 
     public void startVideo(View v) {

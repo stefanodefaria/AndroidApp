@@ -144,6 +144,12 @@ public class ActivityExpList extends Activity {
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        Controller.setmTelaLista(this);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu);

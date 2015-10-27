@@ -53,6 +53,12 @@ public class ActivityReportList extends Activity {
 
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Controller.setmTelaReportLista(this);
+    }
+
     private void atualizaListView(){
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this,

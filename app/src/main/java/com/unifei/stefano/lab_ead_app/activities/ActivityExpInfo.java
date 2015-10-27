@@ -74,17 +74,9 @@ public class ActivityExpInfo extends Activity {
     }
 
     @Override
-    protected void onDestroy()
-    {
-       // IniciarOperacao.iniciar(OperationGetExpList.class, new Object[]{mExpKey, this});
-        super.onDestroy();
-
-    }
-
-    protected void onResume()
-    {
+    protected void onResume(){
         super.onResume();
-        showProgress(false);
+        Controller.setmTelaExpInfo(this);
     }
 
     public void showProgress(final boolean show) {
