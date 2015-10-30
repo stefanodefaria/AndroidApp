@@ -59,7 +59,7 @@ public class Controller {
     private static ArrayList<String> mExpFormHints;
     private static String mExpDescricao;
     private static String mExpName;
-    private static String mExpID;
+    private static String mExpKey;
     private static String name;
     private static String mName;
     private static String mNameUser;
@@ -142,6 +142,10 @@ public class Controller {
 
     public static void receberResposta(Exception error, final Operation operation){
         if(error == null) {
+
+            if(operation.getResponseMessage().equals(Definitions.BAD_CREDENTIALS)){
+                backToLoginScreen(operation.getTelaExpedidora());
+            }
 
             switch (operation.getName()){
                 case "register":
@@ -250,23 +254,14 @@ public class Controller {
 
     private static void handleLogoutResponse(OperationLogout logoutOp){
         String responseMsg = logoutOp.getResponseMessage();
-        switch (responseMsg) {
-            case Definitions.SUCCESS:
-                IniciarOperacao.setToken(null);
-                IniciarOperacao.setTimeOutLimit(-1);
-                IniciarOperacao.setEmail(null);
-                Intent intent = new Intent(logoutOp.getTelaExpedidora(), ActivityLogin.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                logoutOp.getTelaExpedidora().startActivity(intent);
+        IniciarOperacao.setToken(null);
+        IniciarOperacao.setTimeOutLimit(-1);
+        IniciarOperacao.setEmail(null);
+        Intent intent = new Intent(logoutOp.getTelaExpedidora(), ActivityLogin.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        logoutOp.getTelaExpedidora().startActivity(intent);
 
-                mTelaEmUso.finish();
-                break;
-            case Definitions.BAD_CREDENTIALS:
-                showErrorMessage(new Exception(mTelaEmUso.getString(R.string.error_bad_credentials)));
-                break;
-            default:
-                showErrorMessage(new Exception(responseMsg));
-        }
+        mTelaEmUso.finish();
     }
 
     private static void handleUpdateInfo(OperationUpdateInfo updateInfoOp){
@@ -399,7 +394,7 @@ public class Controller {
                 mExpDescricao = getExpInfoOp.getExpDescricao();
                 mExpFormCampos = getExpInfoOp.getExpFormCampos();
                 mExpFormHints = getExpInfoOp.getExpFormHints();
-                String expKey = getExpInfoOp.getReqExpKey();
+                mExpKey = getExpInfoOp.getReqExpKey();
 
                 if (mTelaExpInfo != null) {
                     mTelaExpInfo.finish();
@@ -409,7 +404,7 @@ public class Controller {
                 Intent intent = new Intent(getExpInfoOp.getTelaExpedidora(), ActivityExpInfo.class);
 
                 Bundle b = new Bundle();
-                b.putString("expKey", expKey);
+                b.putString("expKey", mExpKey);
                 b.putString("expName", mExpName);
                 b.putString("expDescricao", mExpDescricao);
                 b.putStringArrayList("expFormCampos", mExpFormCampos);
@@ -428,12 +423,13 @@ public class Controller {
 
     private static void handleStartExp(OperationStartExp getExpForm) {
         String responseMsg = getExpForm.getResponseMessage();
+        mTelaExpInfo.showProgress(false);
         switch (responseMsg) {
             case Definitions.SUCCESS:
 
 
                 IniciarOperacao.refreshTimeOutDate();
-                mExpID = getExpForm.getReqExpId();
+                mExpKey = getExpForm.getReqExpId();
 
                 //mExpNameForm = expForm.getExpName();
 
@@ -450,21 +446,15 @@ public class Controller {
                 b.putStringArrayList("expFormCampos", mExpFormCampos);
                 b.putStringArrayList("expFormHints", mExpFormHints);
 
-               // mTelaExpForm.setExpCampos(mExpFormCampos);
-
                 intent.putExtras(b);
                 getExpForm.getTelaExpedidora().startActivity(intent);
 
-
-
                 break;
-            case Definitions.BAD_CREDENTIALS:
-                showErrorMessage(new Exception(mTelaEmUso.getString(R.string.error_bad_credentials)));
-                break;
+
             default:
+                mTelaExpInfo.finish();
                 showErrorMessage(new Exception(responseMsg));
         }
-
     }
 
     private static void handleGetReport(OperationGetReports getReportOp){

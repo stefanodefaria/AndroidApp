@@ -12,4 +12,5 @@ public class Definitions {
     public static final String SERVER_ERROR = "SERVER_ERROR";
     public static final String EMAIL_NOT_UNIQUE = "EMAIL_NOT_UNIQUE";
     public static final String MISSING_DATA = "MISSING_DATA";
+    public static final String DEVICE_BUSY = "DEVICE_BUSY";
 }
